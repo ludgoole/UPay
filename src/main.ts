@@ -1,8 +1,8 @@
-import '@unocss/reset/tailwind.css'
 import 'uno.css'
-import '/src/styles/main.css'
-import '/src/styles/vant.less'
-import '/src/styles/vant.component'
+import '/src/assets/styles/reset.css'
+import '/src/assets/styles/main.css'
+import '/src/assets/styles/vant.less'
+import '/src/assets/styles/vant.component'
 
 import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'

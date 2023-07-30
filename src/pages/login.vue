@@ -13,6 +13,7 @@ const router = useRouter()
 // ts
 interface Login {
   username: string
+  phone: string
   password: string
 }
 
