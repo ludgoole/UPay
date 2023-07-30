@@ -118,7 +118,7 @@ meta:
     </section>
     <section mt-4>
       <VanButton type="danger" block>
-        块级元素
+        Sign Out
       </VanButton>
     </section>
   </div>
