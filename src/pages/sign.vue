@@ -6,52 +6,48 @@ meta:
 </route>
 
 <script setup lang="ts">
-import localforage from 'localforage'
 import { Toast } from 'vant'
-const router = useRouter()
 
-// ts
-interface Sign {
-  username: string
-  password: string
-}
+import { register } from '@/apis/login'
+import type { REQ } from '@/apis/login/data'
+const router = useRouter()
 
 // created
 const username = ref('')
 const phone = ref('')
+const email = ref('')
 const password = ref('')
 const repeatPassword = ref('')
 const paymentPassword = ref('')
-const referralCode = ref('')
-const verificationCode = ref('')
+const repeatPaymentPassword = ref('')
+const inviteCode = ref('')
 const type1 = ref<'password' | 'text'>('password')
 const type2 = ref<'password' | 'text'>('password')
 const type3 = ref<'password' | 'text'>('password')
+const type4 = ref<'password' | 'text'>('password')
 
 // method
-const onSubmit = (values: Sign) => {
-  if (values.password !== '123456') {
-    return Toast({
-      message: '用户名或密码不正确',
-    })
-  }
-
-  router.push('/')
-  localforage.setItem('Authorization', 'token')
-  localforage.setItem('userInfo', {
-    ...values,
-    role: values.username === 'admin' ? 'ADMIN' : '',
+const onSubmit = (values: REQ.Register) => {
+  register(values).then((res) => {
+    console.log('🚀 ~ file: login.vue:32 ~ login ~ res:', res)
+    if (res.code === 200) {
+      Toast('register success!')
+      router.push('/login')
+    }
+    else {
+      Toast(res.message)
+    }
   })
 }
 </script>
 
 <template>
   <div class="Sign flex-center bg-gray-1 px-8">
-    <section class="container box-base bg-white">
+    <section class="container box-base bg-white py-1 mt-0">
       <VanForm @submit="onSubmit">
         <VanField
           v-model="username"
-          name="username"
+          name="clientName"
           label="Sign Username"
           placeholder="Sign Username"
           :rules="[{ required: true, message: 'Please enter username' }]"
@@ -75,6 +71,19 @@ const onSubmit = (values: Sign) => {
           </template>
         </VanField>
         <VanField
+          v-model="email"
+          name="email"
+          type="email"
+          label="Sign Email"
+          placeholder="Sign Email"
+          :rules="[{ required: true, message: 'Please enter Sign Email' }]"
+        >
+          <template #label>
+            <i i-ph:phone></i>
+            Sign Email
+          </template>
+        </VanField>
+        <VanField
           v-model="password"
           :type="type1"
           name="password"
@@ -92,7 +101,7 @@ const onSubmit = (values: Sign) => {
         <VanField
           v-model="repeatPassword"
           :type="type2"
-          name="repeatPassword"
+          name="confirmPassword"
           label="Repeat Sign Password"
           placeholder="Repeat Sign Password"
           :right-icon="type2 === 'text' ? 'closed-eye' : 'eye-o'"
@@ -108,39 +117,42 @@ const onSubmit = (values: Sign) => {
           v-model="paymentPassword"
           :type="type3"
           name="paymentPassword"
-          label="Rayment Password"
-          placeholder="Rayment Password"
+          label="Payment Password"
+          placeholder="Payment Password"
           :right-icon="type3 === 'text' ? 'closed-eye' : 'eye-o'"
           :rules="[{ required: true, message: 'Please enter password again' }]"
           @click-right-icon="type3 = type3 === 'text' ? 'password' : 'text'"
         >
           <template #label>
             <i i-ic:outline-lock></i>
-            Rayment Password
+            Payment Password
           </template>
         </VanField>
         <VanField
-          v-model="referralCode"
-          name="referralCode"
-          label="Referral Code"
-          placeholder="Referral Code"
-          :rules="[{ required: true, message: 'Please enter Referral Code' }]"
+          v-model="repeatPaymentPassword"
+          :type="type4"
+          name="confirmPaymentPassword"
+          label="Repeat Payment Password"
+          placeholder="Repeat Payment Password"
+          :right-icon="type4 === 'text' ? 'closed-eye' : 'eye-o'"
+          :rules="[{ required: true, message: 'Please enter paymentPassword again' }]"
+          @click-right-icon="type4 = type4 === 'text' ? 'password' : 'text'"
+        >
+          <template #label>
+            <i i-ic:outline-lock></i>
+            Repeat Payment Password
+          </template>
+        </VanField>
+        <VanField
+          v-model="inviteCode"
+          name="inviteCode"
+          label="Invite Code"
+          placeholder="Invite Code"
+          :rules="[{ required: true, message: 'Please enter Invite Code' }]"
         >
           <template #label>
             <i i-gg:keyboard></i>
-            Referral Code
-          </template>
-        </VanField>
-        <VanField
-          v-model="verificationCode"
-          name="verificationCode"
-          label="Verification Code"
-          placeholder="Verification Code"
-          :rules="[{ required: true, message: 'Please enter Verification Code' }]"
-        >
-          <template #label>
-            <i i-ri:fingerprint-fill></i>
-            Verification Code
+            Invite Code
           </template>
         </VanField>
         <div style="margin: 16px;">

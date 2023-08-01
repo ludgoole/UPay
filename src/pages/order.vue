@@ -2,7 +2,6 @@
 meta:
   title: order
   hideHeader: true
-  roles: [ADMIN]
 </route>
 
 <script lang="ts" setup>

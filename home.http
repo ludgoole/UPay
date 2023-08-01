@@ -1,0 +1,25 @@
+### home
+GET https://api.cashpayments.in/home/detail
+Content-Type: application/json
+X-Token: PAY_CLIENT_tj7warc4rp_100093
+
+
+
+### generateQRCode
+GET https://api.cashpayments.in/client/generateQRCode
+Content-Type: application/json
+X-Token: PAY_CLIENT_tj7warc4rp_100093
+
+
+### bind
+POSt https://api.cashpayments.in/client/bind/google/code
+Content-Type: application/json
+X-Token: PAY_CLIENT_tj7warc4rp_100093
+
+{
+  "googleCode": 191914
+}
+
+
+
+bingCode: 0  =>弹窗

@@ -1,9 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
-const AppID = import.meta.env.VITE_APP_AppID
-const AppKey = import.meta.env.VITE_APP_AppKey
+import localforage from 'localforage'
 const AppUrl = import.meta.env.VITE_APP_AppUrl
-
 /**
   * 创建axios实例
   */
@@ -16,7 +14,8 @@ const axiosInstance = axios.create({
   * 请求拦截
   */
 axiosInstance.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    const token = await localforage.getItem('Authorization')
     // 打开 loading
     if (config.loading) {
       Toast.loading({
@@ -27,12 +26,9 @@ axiosInstance.interceptors.request.use(
     }
 
     config.headers = Object.assign({}, config.headers,
-      config.url?.includes('/1.1/classes')
-        ? {
-            'X-LC-Id': AppID,
-            'X-LC-Key': AppKey,
-          }
-        : {},
+      {
+        'X-Token': token,
+      },
     )
 
     return config

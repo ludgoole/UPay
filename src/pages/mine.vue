@@ -2,11 +2,14 @@
 meta:
   title: mine
   hideHeader: true
-  roles: [ADMIN]
   </route>
 
 <script lang="ts" setup>
-// const active = ref(0)
+const router = useRouter()
+
+const toAuth = () => {
+  router.push('/auth')
+}
 </script>
 
 <template>
@@ -72,7 +75,7 @@ meta:
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4">
+        <li class="flex-justify items-center p-4" @click="toAuth">
           <p>
             <i i-material-symbols:settings-outline></i>
             Google Auth

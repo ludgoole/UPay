@@ -1,0 +1,26 @@
+### register
+POST https://api.cashpayments.in/client/register
+Content-Type: application/json
+
+{
+  "clientName": "test015",
+  "inviteCode": "3OKSL048",
+  "password": "123456",
+  "confirmPassword": "123456",
+  "paymentPassword": "123456",
+  "confirmPaymentPassword": "123456",
+  "email": "uPay@google.com",
+  "phone": "18888888888"
+}
+
+
+### login
+POST https://api.cashpayments.in/client/login
+Content-Type: application/json
+
+{
+  "clientName": "test015",
+  "password": "123456",
+  "googleCode": "419833"
+}
+

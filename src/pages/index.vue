@@ -2,21 +2,25 @@
 meta:
   title: home
   hideHeader: true
-  roles: [ADMIN]
 </route>
 
 <script lang="ts" setup>
-// import { useCounterStore } from '@/stores/counter'
-import { getMockData, getTestData } from '@/apis/test'
+import { Toast } from 'vant'
+import { detail } from '@/apis/home'
+const usdtBalance = ref(0)
+const router = useRouter()
 
-// const { count } = toRefs(useCounterStore())
+const toAuth = () => {
+  router.push('/auth')
+}
 
-getTestData({ id: 1 }).then((data) => {
-  console.log('🚀 ~ file: index.vue ~ line 24 ~ getTestData ~ data', data)
-})
-
-getMockData().then((data) => {
-  console.log('🚀 ~ file: index.vue:20 ~ getMockData ~ data:', data)
+onMounted(() => {
+  detail().then((res) => {
+    if (res.code === 200)
+      usdtBalance.value = res.data.usdtBalance
+    else
+      Toast(res.message)
+  })
 })
 </script>
 
@@ -24,10 +28,10 @@ getMockData().then((data) => {
   <div class="Home p-4 bg-gray-1">
     <section class="cash p-4 rounded-md bg-slate-600 color-white">
       <header>Cashable Balance</header>
-      <p>0.00</p>
+      <p>{{ usdtBalance }}</p>
       <p flex text-center mt-8>
-        <span flex-1><i i-material-symbols:download></i> Recharge</span>
-        <span flex-1><i i-material-symbols:upload-rounded></i> Withdrawal</span>
+        <span flex-1 @click="toAuth"><i i-material-symbols:download></i> Recharge</span>
+        <span flex-1 @click="toAuth"><i i-material-symbols:upload-rounded></i> Withdrawal</span>
       </p>
     </section>
     <section class="invite box-base">

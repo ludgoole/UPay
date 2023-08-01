@@ -8,30 +8,29 @@ meta:
 <script setup lang="ts">
 import localforage from 'localforage'
 import { Toast } from 'vant'
+import { login } from '@/apis/login'
+import type { REQ } from '@/apis/login/data'
 const router = useRouter()
-
-// ts
-interface Login {
-  username: string
-  phone: string
-  password: string
-}
 
 // created
 const title = 'Login to UPay'
 const username = ref('')
-const phone = ref('')
 const password = ref('')
+const googleCode = ref('')
 
 // method
-const onSubmit = (values: Login) => {
-  Toast('login success!')
-
-  router.push('/')
-  localforage.setItem('Authorization', 'token')
-  localforage.setItem('userInfo', {
-    ...values,
-    role: values.username === 'admin' ? 'ADMIN' : '',
+const onSubmit = (values: REQ.Login) => {
+  login(values).then((res) => {
+    console.log('🚀 ~ file: login.vue:32 ~ login ~ res:', res)
+    if (res.code === 200) {
+      Toast('login success!')
+      localforage.setItem('Authorization', res.data.token)
+      localforage.setItem('bingCode', res.data.bingCode)
+      router.push('/')
+    }
+    else {
+      Toast(res.message)
+    }
   })
 }
 </script>
@@ -45,7 +44,7 @@ const onSubmit = (values: Login) => {
       <VanForm @submit="onSubmit">
         <VanField
           v-model="username"
-          name="username"
+          name="clientName"
           label="Login Username"
           placeholder="Login Username"
           :rules="[{ required: true, message: 'Please enter username' }]"
@@ -53,19 +52,6 @@ const onSubmit = (values: Login) => {
           <template #label>
             <i i-ic:baseline-person-outline></i>
             Login Username
-          </template>
-        </VanField>
-        <VanField
-          v-model="phone"
-          type="tel"
-          name="phone"
-          label="Mobile Number"
-          placeholder="Mobile Number"
-          :rules="[{ required: true, message: 'Please enter mobile number' }]"
-        >
-          <template #label>
-            <i i-ph:phone></i>
-            Mobile Number
           </template>
         </VanField>
         <VanField
@@ -79,6 +65,19 @@ const onSubmit = (values: Login) => {
           <template #label>
             <i i-ic:outline-lock></i>
             Login Password
+          </template>
+        </VanField>
+        <VanField
+          v-model="googleCode"
+          type="tel"
+          name="googleCode"
+          label="Google Code"
+          placeholder="Google Code"
+          :rules="[{ required: true, message: 'Please enter Google Code' }]"
+        >
+          <template #label>
+            <i i-gg:keyboard></i>
+            Google Code
           </template>
         </VanField>
         <div style="margin: 16px;">
@@ -107,3 +106,5 @@ const onSubmit = (values: Login) => {
   }
 }
 </style>
+/src/apis/login/login
+../apis/login../apis/login/login../apis/login
