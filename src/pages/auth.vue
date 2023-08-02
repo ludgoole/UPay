@@ -7,7 +7,7 @@ meta:
 
 <script lang="ts" setup>
 import { Toast } from 'vant'
-import { bind, generateQRCode } from '@/apis/home'
+import { bind, generateQRCode } from '/src/apis/home'
 const router = useRouter()
 
 const secretKey = ref('')
@@ -16,25 +16,16 @@ const googleCode = ref()
 
 const onBind = () => {
   bind({ googleCode: googleCode.value }).then((res) => {
-    if (res.code === 200) {
-      Toast('提交成功')
-      router.go(-1)
-    }
-    else {
-      Toast(res.message)
-    }
+    console.log('🚀 ~ file: auth.vue:19 ~ bind ~ res:', res)
+    Toast('提交成功')
+    router.go(-1)
   })
 }
 
 onMounted(() => {
   generateQRCode().then((res) => {
-    if (res.code === 200) {
-      qrUrl.value = res.data.qrUrl
-      secretKey.value = res.data.secretKey
-    }
-    else {
-      Toast(res.message)
-    }
+    qrUrl.value = res.qrUrl
+    secretKey.value = res.secretKey
   })
 })
 </script>
@@ -99,3 +90,5 @@ onMounted(() => {
   }
 }
 </style>
+/src/apis/home/home
+../apis/home

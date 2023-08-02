@@ -9,7 +9,7 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = await localforage.getItem('Authorization')
+  const token = await localforage.getItem('token')
   const user = (await localforage.getItem('userInfo') || {}) as { role: string }
   const roles = to.meta?.roles as string[]
   const isLoginPage = to.path === '/login' || to.path === '/sign'

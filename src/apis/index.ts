@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import localforage from 'localforage'
+import { router } from '@/router'
 const AppUrl = import.meta.env.VITE_APP_AppUrl
 /**
-  * 创建axios实例
-  */
+* 创建axios实例
+*/
 const axiosInstance = axios.create({
   baseURL: AppUrl,
   timeout: 15000,
@@ -15,7 +16,7 @@ const axiosInstance = axios.create({
   */
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = await localforage.getItem('Authorization')
+    const token = await localforage.getItem('token')
     // 打开 loading
     if (config.loading) {
       Toast.loading({
@@ -49,7 +50,15 @@ axiosInstance.interceptors.response.use(
       Toast.clear()
 
     // 对响应数据做点什么
-    return response.data
+    if (response.data.code === 200) {
+      return response.data.data
+    }
+    else {
+      response.data.code === 509 && router.push('/login')
+
+      response.config.toast && Toast.fail(response.data.message)
+      return Promise.reject(response.data)
+    }
   },
   (error) => {
     // 关闭 loading
@@ -94,45 +103,30 @@ axiosInstance.interceptors.response.use(
       default:
         error.message = `连接出错(${error.response?.status})!`
     }
-    Toast.fail(error.message)
 
+    error.config.toast && Toast.fail(error.message)
     return Promise.reject(error)
   },
 )
 
 export default axiosInstance
 
-export function GET<T>(url: string, data: object, loading = true) {
+export function GET<T>(url: string, data: object, { loading = false, toast = true } = {}) {
   return axiosInstance.request<unknown, T>({
     method: 'GET',
     url,
     data,
     loading,
+    toast,
   })
 }
 
-export function POSt<T>(url: string, data: object, loading = true) {
+export function POSt<T>(url: string, data: object, { loading = false, toast = true } = {}) {
   return axiosInstance.request<unknown, T>({
     method: 'POSt',
     url,
     data,
     loading,
-  })
-}
-
-export function PUT<T>(url: string, objectId: string, data: object, loading = true) {
-  return axiosInstance.request<unknown, T>({
-    method: 'PUT',
-    url: `${url}/${objectId}`,
-    data,
-    loading,
-  })
-}
-
-export function DELETE<T>(url: string, objectId: string, loading = true) {
-  return axiosInstance.request<unknown, T>({
-    method: 'DELETE',
-    url: `${url}/${objectId}`,
-    loading,
+    toast,
   })
 }

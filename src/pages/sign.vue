@@ -8,8 +8,7 @@ meta:
 <script setup lang="ts">
 import { Toast } from 'vant'
 
-import { register } from '@/apis/login'
-import type { REQ } from '@/apis/login/data'
+import { register } from '/src/apis/login'
 const router = useRouter()
 
 // created
@@ -27,16 +26,11 @@ const type3 = ref<'password' | 'text'>('password')
 const type4 = ref<'password' | 'text'>('password')
 
 // method
-const onSubmit = (values: REQ.Register) => {
+const onSubmit = (values: Request.Register) => {
   register(values).then((res) => {
     console.log('🚀 ~ file: login.vue:32 ~ login ~ res:', res)
-    if (res.code === 200) {
-      Toast('register success!')
-      router.push('/login')
-    }
-    else {
-      Toast(res.message)
-    }
+    Toast('register success!')
+    router.push('/login')
   })
 }
 </script>
@@ -181,3 +175,5 @@ const onSubmit = (values: REQ.Register) => {
   }
 }
 </style>
+/src/apis/login/login
+../apis/login

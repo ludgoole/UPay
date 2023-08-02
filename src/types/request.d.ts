@@ -1,4 +1,5 @@
-export namespace REQ {
+declare namespace Request {
+  /******   login   ******/
   interface Register {
     clientName: string;
     inviteCode: string;
@@ -15,24 +16,17 @@ export namespace REQ {
     password: string;
     googleCode: string;
   }
-}
+  /******   login   ******/
 
-export namespace RES {
-  interface Register {
-    code: number,
-    message: string,
-    data: {
-      token: string
-      bingCode: number
-    }
-  }
 
-  interface Login {
-    code: number,
-    message: string,
-    data: {
-      token: string
-      bingCode: number
-    }
+
+  /******   home   ******/
+  type Detail = {}
+
+  type GenerateQRCode = {}
+
+  interface Bind {
+    googleCode: number;
   }
+  /******   home   ******/
 }

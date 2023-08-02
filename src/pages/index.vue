@@ -5,21 +5,28 @@ meta:
 </route>
 
 <script lang="ts" setup>
+import CountUp from 'vue-countup-v3'
 import { Toast } from 'vant'
-import { detail } from '@/apis/home'
+import { detail } from '/src/apis/home'
+import { useLoginStore } from '@/stores/login'
 const usdtBalance = ref(0)
 const router = useRouter()
+const { bingCode } = useLoginStore()
+
+const number = ref<string | number>(1000)
 
 const toAuth = () => {
-  router.push('/auth')
+  console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
+  if (bingCode === 0)
+    router.push('/auth')
+  else
+    Toast(`bingCode：${bingCode}`)
 }
 
 onMounted(() => {
   detail().then((res) => {
-    if (res.code === 200)
-      usdtBalance.value = res.data.usdtBalance
-    else
-      Toast(res.message)
+    console.log('🚀 ~ file: index.vue:18 ~ detail ~ res:', res)
+    usdtBalance.value = res.usdtBalance
   })
 })
 </script>
@@ -70,22 +77,22 @@ onMounted(() => {
         <li flex-justify mt-2>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>29293.23</p>
-          <p class="Home-tag" border-base px-2 bg-green-1 border-green-2 color-green>
-            +0.345
+          <p class="Home-tag" flex border-base px-2 bg-green-1 border-green-2 color-green>
+            +<CountUp :start-val="0.001" :end-val="0.564" :decimal-places="3" loop />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>2293.23</p>
-          <p class="Home-tag" border-base px-2 bg-red-1 border-red-2 color-red>
-            +0.305
+          <p class="Home-tag" flex border-base px-2 bg-red-1 border-red-2 color-red>
+            +<CountUp :start-val="0.002" :end-val="1" :decimal-places="3" loop />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>2923.23</p>
-          <p class="Home-tag" border-base px-2 bg-blue-1 border-blue-2 color-blue>
-            +0.450
+          <p class="Home-tag" flex border-base px-2 bg-blue-1 border-blue-2 color-blue>
+            +<CountUp :start-val="0.005" :end-val="0.298" :decimal-places="3" loop />
           </p>
         </li>
       </ul>
@@ -104,3 +111,5 @@ onMounted(() => {
   }
 }
 </style>
+/src/apis/home/home
+../apis/home

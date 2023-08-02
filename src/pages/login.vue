@@ -8,9 +8,10 @@ meta:
 <script setup lang="ts">
 import localforage from 'localforage'
 import { Toast } from 'vant'
-import { login } from '@/apis/login'
-import type { REQ } from '@/apis/login/data'
+import { login } from '/src/apis/login'
+import { useLoginStore } from '@/stores/login'
 const router = useRouter()
+const { token, bingCode } = toRefs(useLoginStore())
 
 // created
 const title = 'Login to UPay'
@@ -19,18 +20,15 @@ const password = ref('')
 const googleCode = ref('')
 
 // method
-const onSubmit = (values: REQ.Login) => {
+const onSubmit = (values: Request.Login) => {
   login(values).then((res) => {
     console.log('🚀 ~ file: login.vue:32 ~ login ~ res:', res)
-    if (res.code === 200) {
-      Toast('login success!')
-      localforage.setItem('Authorization', res.data.token)
-      localforage.setItem('bingCode', res.data.bingCode)
-      router.push('/')
-    }
-    else {
-      Toast(res.message)
-    }
+    Toast('login success!')
+    localforage.setItem('token', res.token)
+    localforage.setItem('bingCode', res.bingCode)
+    token.value = res.token
+    bingCode.value = res.bingCode
+    router.push('/')
   })
 }
 </script>
@@ -106,5 +104,3 @@ const onSubmit = (values: REQ.Login) => {
   }
 }
 </style>
-/src/apis/login/login
-../apis/login../apis/login/login../apis/login
