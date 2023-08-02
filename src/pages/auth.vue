@@ -8,11 +8,20 @@ meta:
 <script lang="ts" setup>
 import { Toast } from 'vant'
 import { bind, generateQRCode } from '/src/apis/home'
+import useClipboard from 'vue-clipboard3'
 const router = useRouter()
-
+const { toClipboard } = useClipboard()
 const secretKey = ref('')
 const qrUrl = ref('')
 const googleCode = ref()
+
+const onCopy = (text: string) => {
+  toClipboard(text).then(() => {
+    Toast('copy success!')
+  }).catch(() => {
+    Toast('copy fail!')
+  })
+}
 
 const onBind = () => {
   bind({ googleCode: googleCode.value }).then((res) => {
@@ -52,8 +61,8 @@ onMounted(() => {
       <p font-bold>
         secretKey
       </p>
-      <p text-sm>
-        {{ secretKey }}
+      <p text-sm @click="onCopy(secretKey)">
+        {{ secretKey }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
       </p>
     </section>
     <hr my-4 />

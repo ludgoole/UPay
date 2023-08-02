@@ -13,8 +13,6 @@ const usdtBalance = ref(0)
 const router = useRouter()
 const { bingCode } = useLoginStore()
 
-const number = ref<string | number>(1000)
-
 const toAuth = () => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
   if (bingCode === 0)
