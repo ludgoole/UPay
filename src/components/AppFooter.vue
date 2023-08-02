@@ -2,14 +2,15 @@
 // import { Toast } from 'vant'
 import { menus } from '@/consts'
 const router = useRouter()
-const active = ref(0)
-const onChange = (index: number) => {
-  // Toast({
-  //   message: `标签 ${index}`,
-  // })
-  router.push({
-    path: menus[index].path,
-  })
+const route = useRoute()
+const active = ref('/')
+
+watch(() => route.path, (path) => {
+  active.value = path
+}, { immediate: true })
+
+const onChange = (path: string) => {
+  router.push(path)
 }
 </script>
 
@@ -19,6 +20,7 @@ const onChange = (index: number) => {
       v-for="item in menus"
       :key="item.icon"
       :icon="item.icon"
+      :name="item.path"
     >
       {{ item.name }}
     </VanTabbarItem>
