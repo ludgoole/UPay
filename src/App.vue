@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const route = useRoute()
-const isShowHeader = ref(true)
-const isShowFooter = ref(true)
+const isShowHeader = ref(false)
+const isShowFooter = ref(false)
 
 watch(() => route.meta, (meta) => {
   isShowHeader.value = !meta.hideHeader as boolean

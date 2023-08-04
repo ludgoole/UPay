@@ -96,11 +96,5 @@ const onSubmit = (values: Request.Login) => {
   .container {
     width: 80vw;
   }
-  .van-field {
-    flex-direction: column;
-    &__label {
-      width: 100%;
-    }
-  }
 }
 </style>

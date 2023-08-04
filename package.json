@@ -38,6 +38,7 @@
     "@unocss/reset": "^0.45.1",
     "@unocss/transformer-directives": "^0.45.1",
     "@vitejs/plugin-vue": "^3.0.1",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "eslint": "^8.20.0",
     "gh-pages": "^5.0.0",
     "less": "^4.1.3",
