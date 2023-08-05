@@ -44,7 +44,7 @@ const gridList = [
 ]
 
 // Add Bank Card
-const showForm = ref(false)
+const isShowForm = ref(false)
 const form = reactive({
   bankName: '',
   firstName: '',
@@ -138,7 +138,7 @@ const onSubmit = (v: Form) => {
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4" @click="showForm = true">
+        <li class="flex-justify items-center p-4" @click="isShowForm = true">
           <p>
             <i i-ri:bank-card-line></i>
             Bank Card List
@@ -167,7 +167,7 @@ const onSubmit = (v: Form) => {
       </VanButton>
     </section>
 
-    <VanActionSheet v-model:show="showForm" title="Add Bank Card">
+    <VanActionSheet v-model:show="isShowForm" title="Add Bank Card">
       <VanForm @submit="onSubmit">
         <VanField
           v-model="form.bankName"
@@ -214,22 +214,6 @@ const onSubmit = (v: Form) => {
         </div>
       </VanForm>
     </VanActionSheet>
-
-    <!--
-      <VanDialog v-model:show="showShare" title="share to friends">
-      <div>
-      <img src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg" />
-      <p>link: </p>
-      <p>Invitation Code: </p>
-      </div>
-      </VanDialog>
-    -->
-
-    <!--
-      <VanDialog v-model:show="showShare" title="标题" show-cancel-button>
-      <img src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg" />
-      </VanDialog>
-    -->
   </div>
 </template>
 

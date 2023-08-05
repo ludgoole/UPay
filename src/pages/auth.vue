@@ -87,17 +87,3 @@ onMounted(() => {
     </section>
   </div>
 </template>
-
-<style lang="less" scoped>
-.Home {
-
-  &-tag {
-    line-height: 24px;
-    font-size: 14px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-  }
-}
-</style>
-/src/apis/home/home
-../apis/home

@@ -16,6 +16,9 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = !!token
   const needRoles = !!roles
   const hasRole = roles && roles.includes(user.role)
+  const RouterView = document.querySelector('.RouterView')
+
+  RouterView && RouterView.scrollTo(0, 0)
 
   if (!isLoginPage && !hasToken) {
     Toast({ message: '您还没有登录，请先登录' })
