@@ -41,7 +41,7 @@ export default ({ mode }: ConfigEnv) => {
         mockPath: './mock/',
       }),
       visualizer({
-        open: true,
+        open: false,
       }),
       vue(),
       vueJsx(),

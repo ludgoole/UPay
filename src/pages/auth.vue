@@ -1,7 +1,7 @@
 <route lang="yaml">
 meta:
-  title: auth
-  hideHeader: true
+  title: authenticator
+  leftArrow: true
   hideFooter: true
 </route>
 
@@ -40,9 +40,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <header bg-primary color-white leading-10 pl-3>
-    <VanIcon name="arrow-left" @click="router.go(-1)" />
-  </header>
   <div class="Auth p-4 bg-gray-1 flex-1">
     <section>
       <p>1.Download Google Authenticator</p>

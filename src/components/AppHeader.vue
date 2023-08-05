@@ -8,6 +8,7 @@ const route = useRoute()
 const emitter = inject('emitter') as Emitter<{ 'on-click-right': unknown }>
 const toPath = ref('')
 const leftArrow = ref(false)
+const hideTitle = ref(false)
 const rightText = ref('')
 const isSlot = ref(false)
 
@@ -16,6 +17,7 @@ useHead({ title })
 watch(() => route.meta, (meta) => {
   toPath.value = meta.toPath as string
   title.value = meta.title as string
+  hideTitle.value = meta.hideTitle as boolean
   leftArrow.value = meta.leftArrow as boolean
   rightText.value = meta.rightText as string
   isSlot.value = meta.isPlain as boolean
@@ -28,7 +30,7 @@ function onClickRight() {
 
 <template>
   <VanNavBar
-    :title="title"
+    :title="hideTitle ? '' : title"
     :left-arrow="leftArrow"
     :right-text="rightText"
     @click-right="onClickRight"

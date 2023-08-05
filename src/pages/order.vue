@@ -67,13 +67,3 @@ const active = ref(0)
     </section>
   </div>
 </template>
-
-<style lang="less">
-.Order {
-  --van-tabs-default-color: #3b82f6 !important;
-
-  .van-tabs__nav--card {
-    margin: 0;
-  }
-}
-</style>

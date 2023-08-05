@@ -11,4 +11,5 @@ html {
 /* 添加这段样式后，Primary Button 会变成红色 */
 :root {
   --van-primary-color: #3b82f6 !important;
+  --van-tabs-default-color: #3b82f6 !important;
 }
