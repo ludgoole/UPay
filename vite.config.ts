@@ -8,10 +8,9 @@ import unocss from 'unocss/vite'
 import pages from 'vite-plugin-pages'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
+// import { visualizer } from 'rollup-plugin-visualizer'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
-import vueJsx from '@vitejs/plugin-vue-jsx'
 import getBuild from './vite.build'
 
 // https://vitejs.dev/config/
@@ -40,11 +39,10 @@ export default ({ mode }: ConfigEnv) => {
         logger: false,
         mockPath: './mock/',
       }),
-      visualizer({
-        open: false,
-      }),
+      // visualizer({
+      //   open: true,
+      // }),
       vue(),
-      vueJsx(),
       pages(),
       unocss(),
     ],

@@ -7,6 +7,12 @@ meta:
 <script lang="ts" setup>
 import { generateQRCode } from '/src/apis/home'
 import { Dialog } from 'vant'
+import financial from '@/assets/images/financial-flow.png'
+import withdrawal from '@/assets/images/withdrawal-record.png'
+import payment from '@/assets/images/payment-history.png'
+import collection from '@/assets/images/collection-history.png'
+import recharge from '@/assets/images/recharge-record.png'
+import profit from '@/assets/images/profit.png'
 interface Form {
   bankName: string
   firstName: string
@@ -18,27 +24,27 @@ interface Form {
 const router = useRouter()
 const gridList = [
   {
-    img: 'financial-flow.png',
+    img: financial,
     text: 'Financial Flow',
   },
   {
-    img: 'withdrawal-record.png',
+    img: withdrawal,
     text: 'Withdrawal Record',
   },
   {
-    img: 'payment-history.png',
+    img: payment,
     text: 'Payment History',
   },
   {
-    img: 'collection-history.png',
+    img: collection,
     text: 'Collection History',
   },
   {
-    img: 'recharge-record.png',
+    img: recharge,
     text: 'Recharge Record',
   },
   {
-    img: 'profit.png',
+    img: profit,
     text: 'Profit',
   },
 ]
@@ -102,7 +108,7 @@ const onSubmit = (v: Form) => {
       <ul flex flex-wrap mt--4 text-xs text-center>
         <li v-for="grid in gridList" :key="grid.text" class="basis-1\/3 mt-4">
           <p flex-center>
-            <img w-10 :src="`/src/assets/images/${grid.img}`" alt="icon" />
+            <img w-10 :src="grid.img" alt="icon" />
           </p>
           <p>{{ grid.text }}</p>
         </li>
