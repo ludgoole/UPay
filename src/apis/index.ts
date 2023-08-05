@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Toast } from 'vant'
-import localforage from 'localforage'
+import { useLocalStore } from '@/stores/local'
 import { router } from '@/router'
 const AppUrl = import.meta.env.VITE_APP_AppUrl
 /**
@@ -15,8 +15,8 @@ const axiosInstance = axios.create({
   * 请求拦截
   */
 axiosInstance.interceptors.request.use(
-  async (config) => {
-    const token = await localforage.getItem('token')
+  (config) => {
+    const { token } = useLocalStore()
     // 打开 loading
     if (config.loading) {
       Toast.loading({
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
       return response.data.data
     }
     else {
-      response.data.code === 509 && router.push('/login')
+      response.data.message === 'NO LOGIN' && router.push('/login')
 
       response.config.toast && Toast.fail(response.data.message)
       return Promise.reject(response.data)

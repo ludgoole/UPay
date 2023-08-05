@@ -3,8 +3,8 @@
   "packageManager": "pnpm@7.0.0",
   "scripts": {
     "build": "vite build",
-    "preview": "vite preview --port 8090",
-    "dev": "vite --port 8090",
+    "preview": "vite preview --port 9000",
+    "dev": "vite --port 9000",
     "dev:test": "vite serve --mode test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

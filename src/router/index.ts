@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import localforage from 'localforage'
 import { Toast } from 'vant'
+import { useLocalStore } from '@/stores/local'
 import routes from '~pages'
 
 export const router = createRouter({
@@ -8,9 +8,9 @@ export const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  const token = await localforage.getItem('token')
-  const user = (await localforage.getItem('userInfo') || {}) as { role: string }
+router.beforeEach((to, from, next) => {
+  const { token, userInfo } = useLocalStore()
+  const user = (userInfo || {}) as { role: string }
   const roles = to.meta?.roles as string[]
   const isLoginPage = to.path === '/login' || to.path === '/sign'
   const hasToken = !!token
@@ -21,11 +21,11 @@ router.beforeEach(async (to, from, next) => {
   RouterView && RouterView.scrollTo(0, 0)
 
   if (!isLoginPage && !hasToken) {
-    Toast({ message: '您还没有登录，请先登录' })
+    Toast({ message: 'NO LOGIN' })
     next('/login')
   }
   else if (!isLoginPage && hasToken && needRoles && !hasRole) {
-    Toast({ message: '您没有权利访问，请联系管理员升级' })
+    Toast({ message: 'NO PERMISSION' })
     next('/404')
   }
   else {
