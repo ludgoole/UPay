@@ -1,0 +1,1 @@
+import{P as a}from"./assets/index.d1e293ea.js";const e=(s={})=>a("/client/address/detail",s),t=s=>a("/client/save/address",s),r=s=>a("/client/update/address",s),c=s=>a("/client/update/address/status",s);export{e as a,t as b,r as c,c as d};
