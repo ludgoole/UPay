@@ -21,12 +21,32 @@ declare namespace Request {
 
 
   /******   home   ******/
-  type Detail = {}
+  type HomeDetail = {}
 
   type GenerateQRCode = {}
 
   interface Bind {
     googleCode: number;
   }
+
+  interface Recharge {
+    amount: number;
+    myAddressId: number;
+    systemAddressId: number;
+    googleCode: number;
+  }
   /******   home   ******/
+
+  /******   me   ******/
+  type AddressDetail = {}
+
+  type AddressSave = {
+    address: string;
+    googleCode: string;
+  }
+  type AddressStatus = {
+    addressId: number;
+    status: number;
+  }
+  /******   me   ******/
 }

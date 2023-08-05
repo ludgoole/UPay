@@ -15,10 +15,11 @@ const { bingCode } = useLoginStore()
 
 const toAuth = () => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
+  Toast(`bingCode：${bingCode}`)
   if (bingCode === 0)
     router.push('/auth')
   else
-    Toast(`bingCode：${bingCode}`)
+    router.push('/recharge')
 }
 
 onMounted(() => {

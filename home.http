@@ -10,6 +10,11 @@ GET https://api.cashpayments.in/client/generateQRCode
 Content-Type: application/json
 X-Token: PAY_CLIENT_tj7warc4rp_100093
 
+### address
+GET https://api.cashpayments.in/recharge/system/address
+Content-Type: application/json
+X-Token: PAY_CLIENT_ax8lv8c814_100093
+
 
 ### bind
 POSt https://api.cashpayments.in/client/bind/google/code
@@ -21,5 +26,15 @@ X-Token: PAY_CLIENT_tj7warc4rp_100093
 }
 
 
+### bind
+POSt https://api.cashpayments.in/recharge/usdt
+Content-Type: application/json
+X-Token: PAY_CLIENT_tj7warc4rp_100093
 
-bingCode: 0  =>弹窗
+{
+  "amount": 0,
+  "myAddressId": 6,
+  "systemAddressId": 0,
+  "googleCode": 191914
+}
+

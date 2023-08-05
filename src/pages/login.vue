@@ -67,7 +67,6 @@ const onSubmit = (values: Request.Login) => {
         </VanField>
         <VanField
           v-model="googleCode"
-          type="tel"
           name="googleCode"
           label="Google Code"
           placeholder="Google Code"

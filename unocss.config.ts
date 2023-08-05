@@ -10,6 +10,7 @@ export default defineConfig({
   shortcuts: [
     // layer
     ['flex-justify', 'flex justify-between'],
+    ['flex-middle', 'flex items-center'],
     ['flex-center', 'flex justify-center items-center'],
 
     // base

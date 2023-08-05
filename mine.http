@@ -1,0 +1,42 @@
+### detail
+POST https://api.cashpayments.in/client/address/detail
+Content-Type: application/json
+X-Token: PAY_CLIENT_ax8lv8c814_100093
+
+{}
+
+
+
+### save
+POST https://api.cashpayments.in/client/save/address
+Content-Type: application/json
+X-Token: PAY_CLIENT_ax8lv8c814_100093
+
+{
+  "address": "test",
+  "googleCode": "419833"
+}
+
+
+
+### status
+POST https://api.cashpayments.in/client/update/address/status
+Content-Type: application/json
+X-Token: PAY_CLIENT_ax8lv8c814_100093
+
+{
+  "addressId": 6,
+  "status": 1
+}
+
+### update
+POST https://api.cashpayments.in/client/update/address
+Content-Type: application/json
+X-Token: PAY_CLIENT_ax8lv8c814_100093
+
+{
+  "addressId": 6,
+  "address": "111",
+  "googleCode": "419833"
+}
+

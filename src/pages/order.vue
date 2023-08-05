@@ -37,7 +37,7 @@ const active = ref(0)
       </header>
       <VanTabs v-model:active="active" type="card" mt-4>
         <VanTab title="Collection Orders">
-          <ul mt-4 color-gray-4>
+          <ul mt-4 color-gray-4 divide-y>
             <li flex>
               <p>Order Id:</p>
               <p>P137328737327827328</p>
