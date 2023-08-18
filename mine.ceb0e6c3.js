@@ -1,1 +1,0 @@
-import{P as a}from"./assets/index.11419142.js";const e=(s={})=>a("/client/address/detail",s),t=s=>a("/client/save/address",s),r=s=>a("/client/update/address",s),c=s=>a("/client/update/address/status",s);export{e as a,t as b,r as c,c as d};
