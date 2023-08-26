@@ -51,7 +51,7 @@ export default ({ mode }: ConfigEnv) => {
       proxy: {
         '/1.1/classes': 'https://njr7h2zt.lc-cn-n1-shared.com/',
         'api': 'http://127.0.0.1:8090/',
-        'https://127.0.0.1': 'https://api.cashpayments.in',
+        [VITE_APP_AppUrl]: VITE_APP_PROXY_URL,
       },
     },
   })

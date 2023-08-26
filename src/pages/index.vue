@@ -9,21 +9,23 @@ import CountUp from 'vue-countup-v3'
 import Cookies from 'js-cookie'
 import { detail } from '/src/apis/home'
 const usdtBalance = ref(0)
+const rupeeBalance = ref(0)
 const router = useRouter()
 const bingCode = Cookies.get('bingCode')
 
-const toAuth = () => {
+const toAuth = (type = 'recharge') => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
   if (bingCode === '0')
     router.push('/auth')
   else
-    router.push('/recharge')
+    router.push(type === 'recharge' ? '/recharge' : '/withdrawal')
 }
 
 onMounted(() => {
   detail().then((res) => {
     console.log('🚀 ~ file: index.vue:18 ~ detail ~ res:', res)
     usdtBalance.value = res.usdtBalance
+    rupeeBalance.value = res.rupeeBalance
   })
 })
 </script>
@@ -31,11 +33,20 @@ onMounted(() => {
 <template>
   <div class="Home p-4 bg-gray-1">
     <section class="cash p-4 rounded-md bg-slate-600 color-white">
-      <header>Cashable Balance</header>
-      <p>{{ usdtBalance }}</p>
+      <header flex-justify>
+        <div>
+          <p>USDT Balance</p>
+          <p>${{ usdtBalance.toFixed(2) }}</p>
+        </div>
+        <div>
+          <p>Withdrawal Balance</p>
+          <p>₹{{ rupeeBalance.toFixed(2) }}</p>
+        </div>
+      </header>
+
       <p flex text-center mt-8>
-        <span flex-1 @click="toAuth"><i i-material-symbols:download></i> Recharge</span>
-        <span flex-1 @click="toAuth"><i i-material-symbols:upload-rounded></i> Withdrawal</span>
+        <span flex-1 @click="toAuth('recharge')"><i i-material-symbols:download></i> Recharge</span>
+        <span flex-1 @click="toAuth('withdrawal')"><i i-material-symbols:upload-rounded></i> Withdrawal</span>
       </p>
     </section>
     <section class="invite box-base">

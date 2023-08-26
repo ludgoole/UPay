@@ -23,6 +23,12 @@ interface Form {
   account: string
   password: string
 }
+interface Grid {
+  img: any
+  text: string
+  path: string
+  query?: any
+}
 const { toClipboard } = useClipboard()
 const router = useRouter()
 const userInfo = ref({} as Response.UserInfo)
@@ -30,18 +36,25 @@ const gridList = [
   {
     img: financial,
     text: 'Financial Flow',
+    path: '/order',
   },
   {
     img: profit,
     text: 'Profit',
+    path: '/order',
   },
   {
     img: withdrawal,
-    text: 'Withdrawal Record',
+    text: 'Withdrawal History',
+    path: '/order',
+    query: {
+      title: 'Withdrawal Orders',
+    },
   },
   {
     img: payment,
-    text: 'Payment History',
+    text: 'Recharge History',
+    path: '/order',
   },
   // {
   //   img: collection,
@@ -65,33 +78,28 @@ const form = reactive({
 const type = ref<'password' | 'text'>('password')
 
 // share to friends
+const isShowShare = ref(false)
+const imgBase64 = ref('')
+const qrUrl = ref('')
+const secretKey = ref('')
 const showShare = () => {
   generateQRCode().then((res) => {
-    Dialog({
-      title: 'share to friends',
-      confirmButtonText: 'share',
-      confirmButtonColor: '#3b82f6',
-      message: () => h('div', {
-        class: 'share flex-center flex-col ',
-        innerHTML: `
-          <img class="w-40%" crossorigin="anonymous" src="${`${res.imgBase64}.png`}" />
-          <p class="text-left"><span class="font-bold">link:</span> ${res.secretKey}</p>
-          <p class="text-left"><span class="font-bold">Invitation Code:</span> ${res.secretKey}</p>
-        `,
-      }),
-    }).then(() => {
-      // on close
-    })
+    isShowShare.value = true
+    imgBase64.value = res.imgBase64
+    qrUrl.value = res.qrUrl
+    secretKey.value = res.secretKey
   })
 }
 
+// UserInfo
+const isShowUserInfo = ref(false)
 getUserInfo().then((res) => {
   console.log('🚀 ~ file: mine.vue:86 ~ constgetUserInfo ~ res:', res)
   if (res)
     userInfo.value = res
 })
 
-window.onCopy = (text: string) => {
+const onCopy = (text: string) => {
   toClipboard(text).then(() => {
     Toast('copy success!')
   }).catch(() => {
@@ -99,32 +107,11 @@ window.onCopy = (text: string) => {
   })
 }
 
-// userId: number
-//     username: string
-//     mobileNo: string
-//     inviteCode: string
-//     bindCode: number
-
-// UserInfo
-const showUserInfo = () => {
-  Dialog({
-    title: 'UserInfo',
-    confirmButtonText: 'confirm',
-    confirmButtonColor: '#3b82f6',
-    message: () => h('div', {
-      class: 'flex-center flex-col ',
-      innerHTML: `
-        <ul ml-2 text-left>
-          <li>UserId: ${userInfo.value.userId} </li>
-          <li>Username: ${userInfo.value.username}</li>
-          <li>Mobile: ${userInfo.value.mobileNo}</li>
-          <li onclick="onCopy('${userInfo.value.inviteCode}')">Invitation Code: ${userInfo.value.inviteCode} <i translate-y--2px i-material-symbols:content-copy-outline></i></li>
-          <li>BindCode: ${userInfo.value.bindCode === 1 ? 'bound' : 'unbound'}</li>
-        </ul>
-        `,
-    }),
-  }).then(() => {
-    // on close
+// grid
+const switchTo = (grid: Grid) => {
+  router.push({
+    path: grid.path,
+    query: grid.query,
   })
 }
 
@@ -161,11 +148,11 @@ const onSubmit = (v: Form) => {
         <li>Invitation Code: {{ userInfo.inviteCode }}</li>
         <li>UID: {{ userInfo.userId }}</li>
       </ul>
-      <VanIcon ml-auto name="arrow" @click="showUserInfo" />
+      <VanIcon ml-auto name="arrow" @click="isShowUserInfo = true" />
     </section>
     <section class="grid box-base">
       <ul flex flex-wrap mt--4 text-xs text-center>
-        <li v-for="grid in gridList" :key="grid.text" class="basis-1\/2 mt-4">
+        <li v-for="grid in gridList" :key="grid.text" class="basis-1\/2 mt-4" @click="switchTo(grid)">
           <p flex-center>
             <img w-10 :src="grid.img" alt="icon" />
           </p>
@@ -280,6 +267,28 @@ const onSubmit = (v: Form) => {
       </VanForm>
     </VanActionSheet>
   </div>
+  <AppDialog v-model:show="isShowShare" title="Share">
+    <div break-all>
+      <img class="w-40%" crossorigin="anonymous" :src="imgBase64" />
+      <p class="text-left" @click="onCopy(secretKey)">
+        <span class="font-bold">link:</span> {{ qrUrl }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      </p>
+      <p class="text-left" @click="onCopy(secretKey)">
+        <span class="font-bold">Invitation Code:</span> {{ secretKey }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      </p>
+    </div>
+  </AppDialog>
+  <AppDialog v-model:show="isShowUserInfo" title="UserInfo">
+    <ul ml-2 text-left>
+      <li>UserId: {{ userInfo.userId }} </li>
+      <li>Username: {{ userInfo.username }}</li>
+      <li>Mobile: {{ userInfo.mobileNo }}</li>
+      <li @click="onCopy(userInfo.inviteCode)">
+        Invitation Code: {{ userInfo.inviteCode }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      </li>
+      <li>BindCode: {{ userInfo.bindCode === 1 ? 'bound' : 'unbound' }}</li>
+    </ul>
+  </AppDialog>
 </template>
 
   <style lang="less">

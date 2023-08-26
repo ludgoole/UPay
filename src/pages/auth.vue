@@ -7,6 +7,7 @@ meta:
 
 <script lang="ts" setup>
 import { Toast } from 'vant'
+import Cookies from 'js-cookie'
 import { bind, generateQRCode } from '/src/apis/home'
 import useClipboard from 'vue-clipboard3'
 const router = useRouter()
@@ -27,7 +28,8 @@ const onCopy = (text: string) => {
 const onBind = () => {
   bind({ googleCode: googleCode.value }).then((res) => {
     console.log('🚀 ~ file: auth.vue:19 ~ bind ~ res:', res)
-    Toast('提交成功')
+    Toast('bind success')
+    Cookies.set('bingCode', (res.bingCode || 0).toString(), { expires: 1 })
     router.go(-1)
   })
 }

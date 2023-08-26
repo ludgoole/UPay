@@ -7,9 +7,14 @@ import '/src/assets/styles/vant.component'
 import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 import mitt from 'mitt'
+import { Locale } from 'vant'
+import enUS from 'vant/es/locale/lang/en-US'
 import { store } from './stores'
 import { router } from './router'
 import App from './App.vue'
+
+// 引入英文语言包
+Locale.use('en-US', enUS)
 
 const head = createHead()
 

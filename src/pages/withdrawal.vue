@@ -1,31 +1,34 @@
 <route lang="yaml">
 meta:
-  title: recharge
+  title: withdrawal
   leftArrow: true
   hideFooter: true
 </route>
 
 <script lang="ts" setup>
 import { Toast } from 'vant'
-import { addressDetail } from '/src/apis/mine'
-import { recharge, systemAddress } from '/src/apis/home'
+import { bankDetail } from '/src/apis/mine'
+import { withdrawal } from '/src/apis/home'
 interface AddressItem {
   text: string
-  value: number
+  value: string
+  bankAccount: string
+  ifsc: string
+  id: number
 }
-type Filed = 'myAddress' | 'systemAddress'
+type Filed = 'bankAccount' | 'ifsc'
 const router = useRouter()
-const myAddressList = ref<AddressItem[]>([])
-const systemAddressList = ref<AddressItem[]>([])
-const pickerFiled = ref<Filed>('myAddress')
+const bankList = ref<AddressItem[]>([])
+const ifscList = ref<AddressItem[]>([])
+const pickerFiled = ref<Filed>('bankAccount')
 const form = reactive({
   amount: '',
-  myAddress: '',
-  systemAddress: '',
+  bankAccount: '',
+  ifsc: '',
   googleCode: '',
 })
-const myAddressId = ref(0)
-const systemAddressId = ref(0)
+const bankAccount = ref('')
+const ifsc = ref('')
 
 const isShowPicker = ref(false)
 const columns = ref<AddressItem[]>([])
@@ -37,7 +40,7 @@ const toAddress = () => {
   router.push({
     path: '/address',
     query: {
-      title: 'USDT',
+      title: 'BANK',
     },
   })
 }
@@ -47,66 +50,73 @@ const toOrder = () => {
   router.push({
     path: '/order',
     query: {
-      title: 'Recharge Orders',
+      title: 'Withdrawal Orders',
     },
   })
 }
 
 const onisShowPicker = (filed: Filed) => {
-  if (filed === 'myAddress' && myAddressList.value.length === 0) {
+  if (filed === 'bankAccount' && bankList.value.length === 0) {
     isShowDialog.value = true
   }
-  else if (filed === 'systemAddress' && systemAddressList.value.length === 0) {
+  else if (filed === 'ifsc' && ifscList.value.length === 0) {
     isShowDialog.value = true
   }
   else {
-    columns.value = filed === 'myAddress' ? myAddressList.value : systemAddressList.value
+    columns.value = filed === 'bankAccount' ? bankList.value : ifscList.value
     isShowPicker.value = true
     pickerFiled.value = filed
   }
 }
 
 const onConfirm = (res: AddressItem) => {
+  console.log('🚀 ~ file: withdrawal.vue:70 ~ onConfirm ~ res:', res)
   isShowPicker.value = false
 
-  if (pickerFiled.value === 'myAddress') {
-    form.myAddress = res.text
-    myAddressId.value = res.value
-  }
-  else {
-    form.systemAddress = res.text
-    systemAddressId.value = res.value
-  }
+  form.bankAccount = res.bankAccount
+  bankAccount.value = res.bankAccount
+  form.ifsc = res.ifsc
+  ifsc.value = res.ifsc
 }
 
-const onSubmit = (values: Request.Recharge) => {
-  const params = {
-    ...values,
-    myAddressId: myAddressId.value,
-    systemAddressId: systemAddressId.value,
-  }
+const onSubmit = (values: Request.Withdrawal) => {
+  // const params = {
+  //   ...values,
+  //   bankAccount: bankAccount.value,
+  //   ifsc: ifsc.value,
+  // }
 
-  recharge(params).then(() => {
+  withdrawal(values).then(() => {
     toOrder()
     Toast('rechange success')
   })
 }
 
 onMounted(() => {
-  addressDetail({ pageSize: 1, pageNum: 999 }).then((res) => {
-    console.log('🚀 ~ file: address.vue:13 ~ addressDetail ~ res:', res)
-    myAddressList.value = res.records.map((record) => ({
-      text: record.address || '',
-      value: record.id,
+  bankDetail({ pageSize: 1, pageNum: 999 }).then((res) => {
+    console.log('🚀 ~ file: address.vue:13 ~ bankDetail ~ res:', res)
+    bankList.value = res.records.map((record) => ({
+      text: record.bankAccount || '',
+      value: record.bankAccount || '',
+      bankAccount: record.bankAccount || '',
+      ifsc: record.ifsc || '',
+      id: record.id,
+    }))
+    ifscList.value = res.records.map((record) => ({
+      text: record.ifsc || '',
+      value: record.ifsc || '',
+      bankAccount: record.bankAccount || '',
+      ifsc: record.ifsc || '',
+      id: record.id,
     }))
   })
-  systemAddress().then((res) => {
-    console.log('🚀 ~ file: recharge.vue:59 ~ systemAddress ~ res:', res)
-    systemAddressList.value = res.records.map((record) => ({
-      text: record.address || '',
-      value: record.id,
-    }))
-  })
+  // systemAddress().then((res) => {
+  //   console.log('🚀 ~ file: recharge.vue:59 ~ ifsc ~ res:', res)
+  //   ifscList.value = res.records.map((record) => ({
+  //     text: record.address || '',
+  //     value: record.id,
+  //   }))
+  // })
 })
 </script>
 
@@ -123,22 +133,22 @@ onMounted(() => {
           :rules="[{ required: true, message: 'Please enter the Amount' }]"
         />
         <VanField
-          v-model="form.myAddress"
+          v-model="form.bankAccount "
           readonly
-          name="myAddressId"
-          label="Address"
-          placeholder="Enter my Address"
-          :rules="[{ required: true, message: 'Please enter my Address' }]"
-          @click="onisShowPicker('myAddress')"
+          name="bankAccount"
+          label="BankAccount"
+          placeholder="Enter the bankAccount"
+          :rules="[{ required: true, message: 'Please enter the bankAccount' }]"
+          @click="onisShowPicker('bankAccount')"
         />
         <VanField
-          v-model="form.systemAddress"
+          v-model="form.ifsc"
           readonly
-          name="systemAddressId"
-          label="SystemAddress"
-          placeholder="Enter the System Address"
-          :rules="[{ required: true, message: 'Please enter the System Address' }]"
-          @click="onisShowPicker('systemAddress')"
+          name="ifsc"
+          label="IFSC"
+          placeholder="Enter the IFSC"
+          :rules="[{ required: true, message: 'Please enter the IFSC' }]"
+          @click="onisShowPicker('ifsc')"
         />
         <VanPopup v-model:show="isShowPicker" position="bottom">
           <VanPicker
@@ -167,7 +177,7 @@ onMounted(() => {
       <h3>Bind Google Code</h3>
       <hr my-2 />
       <p>1.lf there is no Google verification code bound, please go to the personal center tobind</p>
-      <p>2. Be sure to carefully check whether thepayment address is correct</p>
+      <p>2. Be sure to carefully check whether the payment address is correct</p>
       <p>3. Wrong payment address will result in failureto withdraw cash</p>
     </section>
     <AppDialog v-model:show="isShowDialog" title="Address">

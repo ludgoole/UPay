@@ -106,6 +106,9 @@ const onChange = (item: Response.Record) => {
   }).then(() => {
     Toast('change status success')
     getList()
+  }).catch(() => {
+    total.value = 0
+    list.value = []
   })
 }
 

@@ -27,10 +27,43 @@ declare namespace Response {
 
   type SystemAddress = AddressDetail
 
-  type Bind = null
+  type Bind = {
+    bingCode: number
+  }
 
   type Recharge = null
+  type Withdrawal = null
   /******   home   ******/
+
+  /******   order   ******/
+  type RechargeHistory = {
+    records: Record[];
+    total: number;
+    size: number;
+    current: number;
+    orders: any[];
+    optimizeCountSql: boolean;
+    hitCount: boolean;
+    countId?: any;
+    maxLimit?: any;
+    searchCount: boolean;
+    pages: number;
+  }
+
+  type WithdrawalHistory = {
+    records: Record[];
+    total: number;
+    size: number;
+    current: number;
+    orders: any[];
+    optimizeCountSql: boolean;
+    hitCount: boolean;
+    countId?: any;
+    maxLimit?: any;
+    searchCount: boolean;
+    pages: number;
+  }
+  /******   order   ******/
 
   /******   me   ******/
   interface UserInfo {
@@ -63,7 +96,16 @@ declare namespace Response {
     checked?: boolean;
     status: number;
     createTime: string;
+    myAddress?: string;
+    systemAddress?: string;
+    amount?: string;
+    txnId?: string;
+    utr?: string;
+    userId?: string;
+    orderStatus?: string;
   }
+
+
 
   type AddressSave = null
 

@@ -35,7 +35,32 @@ declare namespace Request {
     systemAddressId: number;
     googleCode: number;
   }
+
+  interface Withdrawal {
+    amount: number;
+    bankAccount: number;
+    ifsc: number;
+    googleCode: number;
+  }
+  interface Recharge {
+    amount: number;
+    myAddressId: number;
+    systemAddressId: number;
+    googleCode: number;
+  }
   /******   home   ******/
+
+  /******   order   ******/
+  type RechargeHistory = {
+    pageSize: number
+    pageNum: number
+  }
+
+  type WithdrawalHistory = {
+    pageSize: number
+    pageNum: number
+  }
+  /******   order   ******/
 
   /******   me   ******/
   type AddressDetail = {
