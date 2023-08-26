@@ -17,8 +17,9 @@ declare namespace Response {
   interface HomeDetail {
     rupeeBalance: number;
     usdtBalance: number;
+    todayRechargeUsdt: number;
+    todayWithdrawal: number;
   }
-
   interface GenerateQRCode {
     qrUrl: string;
     imgBase64: string;
@@ -36,6 +37,13 @@ declare namespace Response {
   /******   home   ******/
 
   /******   order   ******/
+  type TotalDetail = {
+    totalRechargeAmount: number;
+    totalWithdrawalAmount: number;
+    todayRechargeUsdt: number;
+    todayWithdrawal: number;
+  }
+
   type RechargeHistory = {
     records: Record[];
     total: number;

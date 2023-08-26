@@ -67,5 +67,8 @@ footer {
     height: 48px;
     background: var(--van-gray-3);
   }
+  p {
+    line-height: 48px;
+  }
 }
 </style>

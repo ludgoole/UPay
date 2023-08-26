@@ -24,7 +24,6 @@ const onSubmit = (values: Request.Login) => {
     Toast('login success!')
     Cookies.set('token', res.token, { expires: 1 })
     Cookies.set('bingCode', (res.bingCode || 0).toString(), { expires: 1 })
-    localStorage.setItem('login-store', JSON.stringify(res))
 
     router.push('/')
   })

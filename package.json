@@ -27,6 +27,7 @@
     "num2capital": "^1.0.5",
     "pinia": "^2.0.21",
     "pinia-plugin-persistedstate-2": "^2.0.1",
+    "qrcode": "^1.5.3",
     "vant": "^3.5.4",
     "vite-plugin-mock": "^3.0.0",
     "vue": "^3.2.37",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@byyuurin/eslint-config": "^0.8.4",
     "@iconify/json": "^2.1.85",
+    "@types/qrcode": "^1.5.1",
     "@unocss/reset": "^0.45.1",
     "@unocss/transformer-directives": "^0.45.1",
     "@vitejs/plugin-vue": "^3.0.1",

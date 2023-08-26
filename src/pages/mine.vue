@@ -5,16 +5,18 @@ meta:
   </route>
 
 <script lang="ts" setup>
-import { generateQRCode } from '/src/apis/home'
+import QRCode from 'qrcode'
 import { getUserInfo } from '/src/apis/mine'
-import { Dialog, Toast } from 'vant'
+import { logout } from '/src/apis/login'
+import { Toast } from 'vant'
+import useClipboard from 'vue-clipboard3'
+import Cookies from 'js-cookie'
 import financial from '@/assets/images/financial-flow.png'
 import withdrawal from '@/assets/images/withdrawal-record.png'
 import payment from '@/assets/images/payment-history.png'
 // import collection from '@/assets/images/collection-history.png'
 // import recharge from '@/assets/images/recharge-record.png'
 import profit from '@/assets/images/profit.png'
-import useClipboard from 'vue-clipboard3'
 
 interface Form {
   bankName: string
@@ -81,14 +83,22 @@ const type = ref<'password' | 'text'>('password')
 const isShowShare = ref(false)
 const imgBase64 = ref('')
 const qrUrl = ref('')
-const secretKey = ref('')
+const username = ref('')
 const showShare = () => {
-  generateQRCode().then((res) => {
-    isShowShare.value = true
-    imgBase64.value = res.imgBase64
-    qrUrl.value = res.qrUrl
-    secretKey.value = res.secretKey
-  })
+  isShowShare.value = true
+
+  // qrUrl.value = res.qrUrl
+  qrUrl.value = `https://api.cashpayments.in/#/sign?inviteCode=${userInfo.value.inviteCode}`
+  username.value = userInfo.value.username
+
+  // QRCode.toCanvas(document.getElementById('canvas'), qrUrl.value, (res) => {
+  //   console.log('🚀 ~ file: mine.vue:97 ~ QRCode.toCanvas ~ res:', res)
+  // })
+
+  QRCode.toDataURL(qrUrl.value)
+    .then((url: string) => {
+      imgBase64.value = url
+    })
 }
 
 // UserInfo
@@ -134,10 +144,21 @@ const toPassword = () => {
 const onSubmit = (v: Form) => {
   console.log('🚀 ~ file: mine.vue:45 ~ onSubmit ~ v:', v)
 }
+
+const onLogout = () => {
+  logout().then((res) => {
+    console.log('🚀 ~ file: mine.vue:141 ~ logout ~ res:', res)
+    Toast('logout success!')
+    Cookies.set('token', '')
+    Cookies.set('bingCode', '')
+
+    router.push('/login')
+  })
+}
 </script>
 
 <template>
-  <div class="Order p-4 bg-gray-100 color-gray-4">
+  <div class="Mine flex flex-col p-4 bg-gray-100 color-gray-4">
     <header flex justify-end>
       <i i-material-symbols:share-outline @click="showShare"></i>
     </header>
@@ -160,15 +181,15 @@ const onSubmit = (v: Form) => {
         </li>
       </ul>
     </section>
-    <section class="cell box-base p-0">
+    <section class="cell box-base p-0 mb-4">
       <ul text-sm text-center divide-y>
-        <li class="flex-justify items-center p-4">
+        <!-- <li class="flex-justify items-center p-4">
           <p>
             <i i-ph:bag></i>
             Bind USDT
           </p>
           <VanIcon ml-auto name="arrow" />
-        </li>
+        </li> -->
         <li class="flex-justify items-center p-4" @click="toAuth">
           <p>
             <i i-material-symbols:settings-outline></i>
@@ -213,8 +234,8 @@ const onSubmit = (v: Form) => {
         </li>
       </ul>
     </section>
-    <section mt-4>
-      <VanButton type="primary" block>
+    <section mt-auto>
+      <VanButton type="primary" block @click="onLogout">
         Sign Out
       </VanButton>
     </section>
@@ -269,12 +290,13 @@ const onSubmit = (v: Form) => {
   </div>
   <AppDialog v-model:show="isShowShare" title="Share">
     <div break-all>
-      <img class="w-40%" crossorigin="anonymous" :src="imgBase64" />
-      <p class="text-left" @click="onCopy(secretKey)">
-        <span class="font-bold">link:</span> {{ qrUrl }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      <img ml-15 crossorigin="anonymous" :src="imgBase64" />
+      <p id="canvas"></p>
+      <p class="text-left" @click="onCopy(qrUrl)">
+        <span class="font-bold">Link:</span> {{ qrUrl }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
       </p>
-      <p class="text-left" @click="onCopy(secretKey)">
-        <span class="font-bold">Invitation Code:</span> {{ secretKey }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      <p class="text-left">
+        <span class="font-bold">Username:</span> {{ username }}
       </p>
     </div>
   </AppDialog>
@@ -292,11 +314,8 @@ const onSubmit = (v: Form) => {
 </template>
 
   <style lang="less">
-  .Order {
-    --van-tabs-default-color: #3b82f6 !important;
-
-    .van-tabs__nav--card {
-      margin: 0;
-    }
+  .Mine {
+    height: 100%;
+    overflow: auto;
   }
   </style>

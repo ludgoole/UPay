@@ -6,8 +6,10 @@ meta:
 
 <script lang="ts" setup>
 // import { Toast } from 'vant'
-import { rechargeHistory, withdrawalHistory } from '/src/apis/order'
+import { rechargeHistory, totalDetail, withdrawalHistory } from '/src/apis/order'
+import { toMoney } from '@/utils'
 const route = useRoute()
+const totalDetailData = ref({} as Response.TotalDetail)
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
 const finished = ref(false)
@@ -62,6 +64,10 @@ const onLoad = () => {
 // }
 
 onMounted(() => {
+  totalDetail().then((res) => {
+    totalDetailData.value = res
+    console.log('🚀 ~ file: order.vue:66 ~ totalDetail ~ res:', res)
+  })
   getList()
 })
 </script>
@@ -71,27 +77,27 @@ onMounted(() => {
     <section class="cash p-4 rounded-md bg-slate-600 color-white">
       <ul flex flex-wrap mt--4>
         <li class="basis-1\/2 mt-4">
-          <p>Cashable Balance</p>
-          <p>0.00</p>
+          <p>Total Recharge</p>
+          <p>{{ toMoney(totalDetailData.totalRechargeAmount, 1) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Cashable Balance</p>
-          <p>0.00</p>
+          <p>Total Withdrawal</p>
+          <p>{{ toMoney(totalDetailData.totalWithdrawalAmount, 2) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Cashable Balance</p>
-          <p>0.00</p>
+          <p>Today Recharge</p>
+          <p>{{ toMoney(totalDetailData.todayRechargeUsdt, 1) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Cashable Balance</p>
-          <p>0.00</p>
+          <p>Today Withdrawa</p>
+          <p>{{ toMoney(totalDetailData.todayWithdrawal, 2) }}</p>
         </li>
       </ul>
     </section>
     <section class="list box-base">
       <header flex-justify>
         <p>Order List</p>
-        <p><i i-material-symbols:play-circle-outline></i></p>
+        <!-- <p><i i-material-symbols:play-circle-outline></i></p> -->
       </header>
       <VanTabs v-model:active="title" type="card" mt-4 pb-4 @change="getList">
         <VanTab v-for="tab in tabs" :key="tab.title" :name="tab.title" :title="tab.title">

@@ -8,8 +8,11 @@ meta:
 import CountUp from 'vue-countup-v3'
 import Cookies from 'js-cookie'
 import { detail } from '/src/apis/home'
+import { toMoney } from '@/utils'
 const usdtBalance = ref(0)
 const rupeeBalance = ref(0)
+const todayRechargeUsdt = ref(0)
+const todayWithdrawal = ref(0)
 const router = useRouter()
 const bingCode = Cookies.get('bingCode')
 
@@ -26,6 +29,8 @@ onMounted(() => {
     console.log('🚀 ~ file: index.vue:18 ~ detail ~ res:', res)
     usdtBalance.value = res.usdtBalance
     rupeeBalance.value = res.rupeeBalance
+    todayRechargeUsdt.value = res.todayRechargeUsdt
+    todayWithdrawal.value = res.todayWithdrawal
   })
 })
 </script>
@@ -36,11 +41,11 @@ onMounted(() => {
       <header flex-justify>
         <div>
           <p>USDT Balance</p>
-          <p>${{ usdtBalance.toFixed(2) }}</p>
+          <p>{{ toMoney(usdtBalance, 1) }}</p>
         </div>
         <div>
           <p>Withdrawal Balance</p>
-          <p>₹{{ rupeeBalance.toFixed(2) }}</p>
+          <p>{{ toMoney(rupeeBalance, 2) }}</p>
         </div>
       </header>
 
@@ -55,23 +60,27 @@ onMounted(() => {
     <section class="usdp box-base px-0 flex text-center color-slate-700">
       <div flex-1>
         <p text-sm>
-          Today's order income
+          Today's recharge
         </p>
-        <p py-2>
+        <!-- <p py-2>
           USDT
+        </p> -->
+        <p pt-2>
+          {{ toMoney(todayRechargeUsdt, 1) }}
         </p>
-        <p>2.89 USDT</p>
       </div>
       <div w-1px bg-gray-1>
       </div>
       <div flex-1>
         <p text-sm>
-          Today's team earnings
+          Today's withdrawal
         </p>
-        <p py-2>
+        <!-- <p py-2>
           USDT
+        </p> -->
+        <p pt-2>
+          {{ toMoney(todayWithdrawal, 2) }}
         </p>
-        <p>0.89 USDT</p>
       </div>
     </section>
     <section class="notice box-base flex-justify">

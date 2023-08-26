@@ -7,9 +7,9 @@ meta:
 
 <script setup lang="ts">
 import { Toast } from 'vant'
-
 import { register } from '/src/apis/login'
 import Cookies from 'js-cookie'
+const route = useRoute()
 const router = useRouter()
 
 // created
@@ -20,7 +20,7 @@ const password = ref('')
 const repeatPassword = ref('')
 const paymentPassword = ref('')
 const repeatPaymentPassword = ref('')
-const inviteCode = ref('')
+const inviteCode = ref((route.query.inviteCode as string) || '')
 const type1 = ref<'password' | 'text'>('password')
 const type2 = ref<'password' | 'text'>('password')
 const type3 = ref<'password' | 'text'>('password')
@@ -42,9 +42,7 @@ const onSubmit = (values: Request.Register) => {
     Cookies.set('token', res.token, { expires: 1 })
     Cookies.set('bingCode', (res.bingCode || 0).toString(), { expires: 1 })
 
-    localStorage.setItem('login-store', JSON.stringify(res))
     router.push('/')
-    // router.push('/login')
   })
 }
 </script>
