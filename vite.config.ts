@@ -16,7 +16,7 @@ import getBuild from './vite.build'
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd())
-  const { VITE_APP_PROXY_URL, VITE_APP_BASE_URL } = env
+  const { VITE_APP_AppUrl, VITE_APP_PROXY_URL, VITE_APP_BASE_URL } = env
 
   return defineConfig({
     base: VITE_APP_BASE_URL,
@@ -51,7 +51,7 @@ export default ({ mode }: ConfigEnv) => {
       proxy: {
         '/1.1/classes': 'https://njr7h2zt.lc-cn-n1-shared.com/',
         'api': 'http://127.0.0.1:8090/',
-        'uPay': VITE_APP_PROXY_URL,
+        'https://127.0.0.1': 'https://api.cashpayments.in',
       },
     },
   })

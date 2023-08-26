@@ -14,9 +14,11 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@vueuse/core": "^9.0.2",
     "@vueuse/head": "^0.7.8",
     "axios": "^0.27.2",
+    "js-cookie": "^3.0.5",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",

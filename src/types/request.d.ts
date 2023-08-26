@@ -38,7 +38,10 @@ declare namespace Request {
   /******   home   ******/
 
   /******   me   ******/
-  type AddressDetail = {}
+  type AddressDetail = {
+    pageSize: number
+    pageNum: number
+  }
 
   type AddressSave = {
     address: string;
@@ -47,6 +50,21 @@ declare namespace Request {
   type AddressStatus = {
     addressId: number;
     status: number;
+  }
+  type ModifyPassword = {
+    newPassword: string;
+    renewPassword: string;
+    type: string | number;
+    googleCode: string |  number;
+  }
+  type BankDetail = {
+    pageSize: number
+    pageNum: number
+  }
+  type BankSave = {
+    bankAccount: string;
+    beneName: string;
+    ifsc: string;
   }
   /******   me   ******/
 }

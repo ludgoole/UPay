@@ -21,6 +21,7 @@ declare namespace Response {
 
   interface GenerateQRCode {
     qrUrl: string;
+    imgBase64: string;
     secretKey: string;
   }
 
@@ -32,6 +33,13 @@ declare namespace Response {
   /******   home   ******/
 
   /******   me   ******/
+  interface UserInfo {
+    userId: number
+    username: string
+    mobileNo: string
+    inviteCode: string
+    bindCode: number
+  }
   interface AddressDetail {
     records: Record[];
     total: number;
@@ -48,9 +56,12 @@ declare namespace Response {
 
   interface Record {
     id: number;
-    address: string;
-    status: number;
+    address?: string;
+    bankAccount?: string;
+    beneName?: string;
+    ifsc?: string;
     checked?: boolean;
+    status: number;
     createTime: string;
   }
 

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { Toast } from 'vant'
-import { useLocalStore } from '@/stores/local'
+import Cookies from 'js-cookie'
+
 import routes from '~pages'
 
 export const router = createRouter({
@@ -9,7 +10,8 @@ export const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const { token, userInfo } = useLocalStore()
+  const token = Cookies.get('token')
+  const userInfo = Cookies.get('userInfo')
   const user = (userInfo || {}) as { role: string }
   const roles = to.meta?.roles as string[]
   const isLoginPage = to.path === '/login' || to.path === '/sign'

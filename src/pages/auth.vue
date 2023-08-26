@@ -13,6 +13,7 @@ const router = useRouter()
 const { toClipboard } = useClipboard()
 const secretKey = ref('')
 const qrUrl = ref('')
+const imgBase64 = ref('')
 const googleCode = ref()
 
 const onCopy = (text: string) => {
@@ -34,6 +35,7 @@ const onBind = () => {
 onMounted(() => {
   generateQRCode().then((res) => {
     qrUrl.value = res.qrUrl
+    imgBase64.value = res.imgBase64
     secretKey.value = res.secretKey
   })
 })
@@ -53,7 +55,7 @@ onMounted(() => {
     <section>
       <p>2.Open the Google Authenticator and scanthe QR Code below or enter secretKey</p>
       <p text-center my-4>
-        <img inline-block crossorigin="anonymous" :src="qrUrl" alt="二维码" />
+        <img inline-block crossorigin="anonymous" :src="imgBase64" alt="二维码" />
       </p>
       <p font-bold>
         secretKey

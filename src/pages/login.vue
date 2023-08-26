@@ -8,9 +8,8 @@ meta:
 <script setup lang="ts">
 import { Toast } from 'vant'
 import { login } from '/src/apis/login'
-import { useLoginStore } from '@/stores/login'
+import Cookies from 'js-cookie'
 const router = useRouter()
-const { token, bingCode } = toRefs(useLoginStore())
 
 // created
 const title = 'Login to UPay'
@@ -23,8 +22,10 @@ const onSubmit = (values: Request.Login) => {
   login(values).then((res) => {
     console.log('🚀 ~ file: login.vue:32 ~ login ~ res:', res)
     Toast('login success!')
-    token.value = res.token
-    bingCode.value = res.bingCode
+    Cookies.set('token', res.token, { expires: 1 })
+    Cookies.set('bingCode', (res.bingCode || 0).toString(), { expires: 1 })
+    localStorage.setItem('login-store', JSON.stringify(res))
+
     router.push('/')
   })
 }

@@ -6,17 +6,15 @@ meta:
 
 <script lang="ts" setup>
 import CountUp from 'vue-countup-v3'
-import { Toast } from 'vant'
+import Cookies from 'js-cookie'
 import { detail } from '/src/apis/home'
-import { useLoginStore } from '@/stores/login'
 const usdtBalance = ref(0)
 const router = useRouter()
-const { bingCode } = useLoginStore()
+const bingCode = Cookies.get('bingCode')
 
 const toAuth = () => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
-  Toast(`bingCode：${bingCode}`)
-  if (bingCode === 0)
+  if (bingCode === '0')
     router.push('/auth')
   else
     router.push('/recharge')
@@ -110,5 +108,3 @@ onMounted(() => {
   }
 }
 </style>
-/src/apis/home/home
-../apis/home

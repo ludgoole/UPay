@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Toast } from 'vant'
-import { useLocalStore } from '@/stores/local'
+import Cookies from 'js-cookie'
 import { router } from '@/router'
 const AppUrl = import.meta.env.VITE_APP_AppUrl
 /**
@@ -16,7 +16,7 @@ const axiosInstance = axios.create({
   */
 axiosInstance.interceptors.request.use(
   (config) => {
-    const { token } = useLocalStore()
+    const token = Cookies.get('token')
     // 打开 loading
     if (config.loading) {
       Toast.loading({
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
       return response.data.data
     }
     else {
-      response.data.message === 'NO LOGIN' && router.push('/login')
+      ['NO LOGIN', 'TOKEN OVERDUE'].includes(response.data.message) && router.push('/login')
 
       response.config.toast && Toast.fail(response.data.message)
       return Promise.reject(response.data)

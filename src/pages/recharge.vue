@@ -5,18 +5,6 @@ meta:
   hideFooter: true
 </route>
 
-<!--
-  USDT Type
-  Select a USDT node
-  TRC-20
-  Enter the TRC-20 Payment Address
-  Verification Code
-  Enter Google Verification Code
-  You haven't bound GoogleAuthenticator
-  To Bind
-
--->
-
 <script lang="ts" setup>
 import { Toast } from 'vant'
 import { addressDetail } from '/src/apis/mine'
@@ -145,8 +133,10 @@ onMounted(() => {
         </div>
       </VanForm>
     </section>
-    <section my-4>
-      <p>1.lf there is no Google verification codebound, please go to the personal center tobind</p>
+    <section my-4 box-base rounded-0>
+      <h3>Bind Google Code</h3>
+      <hr my-2 />
+      <p>1.lf there is no Google verification code bound, please go to the personal center tobind</p>
       <p>2. Be sure to carefully check whether thepayment address is correct</p>
       <p>3. Wrong payment address will result in failureto withdraw cash</p>
     </section>

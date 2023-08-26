@@ -6,13 +6,16 @@ meta:
 
 <script lang="ts" setup>
 import { generateQRCode } from '/src/apis/home'
-import { Dialog } from 'vant'
+import { getUserInfo } from '/src/apis/mine'
+import { Dialog, Toast } from 'vant'
 import financial from '@/assets/images/financial-flow.png'
 import withdrawal from '@/assets/images/withdrawal-record.png'
 import payment from '@/assets/images/payment-history.png'
-import collection from '@/assets/images/collection-history.png'
-import recharge from '@/assets/images/recharge-record.png'
+// import collection from '@/assets/images/collection-history.png'
+// import recharge from '@/assets/images/recharge-record.png'
 import profit from '@/assets/images/profit.png'
+import useClipboard from 'vue-clipboard3'
+
 interface Form {
   bankName: string
   firstName: string
@@ -20,12 +23,17 @@ interface Form {
   account: string
   password: string
 }
-
+const { toClipboard } = useClipboard()
 const router = useRouter()
+const userInfo = ref({} as Response.UserInfo)
 const gridList = [
   {
     img: financial,
     text: 'Financial Flow',
+  },
+  {
+    img: profit,
+    text: 'Profit',
   },
   {
     img: withdrawal,
@@ -35,18 +43,14 @@ const gridList = [
     img: payment,
     text: 'Payment History',
   },
-  {
-    img: collection,
-    text: 'Collection History',
-  },
-  {
-    img: recharge,
-    text: 'Recharge Record',
-  },
-  {
-    img: profit,
-    text: 'Profit',
-  },
+  // {
+  //   img: collection,
+  //   text: 'Collection History',
+  // },
+  // {
+  //   img: recharge,
+  //   text: 'Recharge Record',
+  // },
 ]
 
 // Add Bank Card
@@ -70,7 +74,7 @@ const showShare = () => {
       message: () => h('div', {
         class: 'share flex-center flex-col ',
         innerHTML: `
-          <img class="w-40%" crossorigin="anonymous" src="${`${res.qrUrl}.png`}" />
+          <img class="w-40%" crossorigin="anonymous" src="${`${res.imgBase64}.png`}" />
           <p class="text-left"><span class="font-bold">link:</span> ${res.secretKey}</p>
           <p class="text-left"><span class="font-bold">Invitation Code:</span> ${res.secretKey}</p>
         `,
@@ -81,8 +85,63 @@ const showShare = () => {
   })
 }
 
+getUserInfo().then((res) => {
+  console.log('🚀 ~ file: mine.vue:86 ~ constgetUserInfo ~ res:', res)
+  if (res)
+    userInfo.value = res
+})
+
+window.onCopy = (text: string) => {
+  toClipboard(text).then(() => {
+    Toast('copy success!')
+  }).catch(() => {
+    Toast('copy fail!')
+  })
+}
+
+// userId: number
+//     username: string
+//     mobileNo: string
+//     inviteCode: string
+//     bindCode: number
+
+// UserInfo
+const showUserInfo = () => {
+  Dialog({
+    title: 'UserInfo',
+    confirmButtonText: 'confirm',
+    confirmButtonColor: '#3b82f6',
+    message: () => h('div', {
+      class: 'flex-center flex-col ',
+      innerHTML: `
+        <ul ml-2 text-left>
+          <li>UserId: ${userInfo.value.userId} </li>
+          <li>Username: ${userInfo.value.username}</li>
+          <li>Mobile: ${userInfo.value.mobileNo}</li>
+          <li onclick="onCopy('${userInfo.value.inviteCode}')">Invitation Code: ${userInfo.value.inviteCode} <i translate-y--2px i-material-symbols:content-copy-outline></i></li>
+          <li>BindCode: ${userInfo.value.bindCode === 1 ? 'bound' : 'unbound'}</li>
+        </ul>
+        `,
+    }),
+  }).then(() => {
+    // on close
+  })
+}
+
+const toAddress = (title: string) => {
+  router.push({
+    path: '/address',
+    query: {
+      title,
+    },
+  })
+}
+
 const toAuth = () => {
   router.push('/auth')
+}
+const toPassword = () => {
+  router.push('/password')
 }
 
 const onSubmit = (v: Form) => {
@@ -96,17 +155,17 @@ const onSubmit = (v: Form) => {
       <i i-material-symbols:share-outline @click="showShare"></i>
     </header>
     <section class="profile box-base flex items-center">
-      <img src="@/assets/images/logo.png" alt="" />
+      <img w-16 src="@/assets/images/logo.png" alt="" />
       <ul ml-2>
-        <li>Mobile: 180000000</li>
-        <li>Invitation Code: 12</li>
-        <li>UID: 11</li>
+        <li>Mobile: {{ userInfo.mobileNo }}</li>
+        <li>Invitation Code: {{ userInfo.inviteCode }}</li>
+        <li>UID: {{ userInfo.userId }}</li>
       </ul>
-      <VanIcon ml-auto name="arrow" />
+      <VanIcon ml-auto name="arrow" @click="showUserInfo" />
     </section>
     <section class="grid box-base">
       <ul flex flex-wrap mt--4 text-xs text-center>
-        <li v-for="grid in gridList" :key="grid.text" class="basis-1\/3 mt-4">
+        <li v-for="grid in gridList" :key="grid.text" class="basis-1\/2 mt-4">
           <p flex-center>
             <img w-10 :src="grid.img" alt="icon" />
           </p>
@@ -137,21 +196,21 @@ const onSubmit = (v: Form) => {
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4">
+        <li class="flex-justify items-center p-4" @click="toAddress('USDT')">
           <p>
             <i i-mdi:tag-outline></i>
             USDT Address List
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4" @click="isShowForm = true">
+        <li class="flex-justify items-center p-4" @click="toAddress('BANK')">
           <p>
             <i i-ri:bank-card-line></i>
             Bank Card List
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4">
+        <li class="flex-justify items-center p-4" @click="toPassword">
           <p>
             <i i-ic:outline-lock></i>
             Password
