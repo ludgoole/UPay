@@ -29,7 +29,7 @@ declare namespace Response {
   type SystemAddress = AddressDetail
 
   type Bind = {
-    bingCode: number
+    bindCode: number
   }
 
   type Recharge = null

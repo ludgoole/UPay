@@ -29,7 +29,7 @@ const onBind = () => {
   bind({ googleCode: googleCode.value }).then((res) => {
     console.log('🚀 ~ file: auth.vue:19 ~ bind ~ res:', res)
     Toast('bind success')
-    Cookies.set('bingCode', (res.bingCode || 0).toString(), { expires: 1 })
+    Cookies.set('bingCode', (res.bindCode || 0).toString(), { expires: 1 })
     router.go(-1)
   })
 }
