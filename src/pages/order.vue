@@ -2,13 +2,12 @@
 meta:
   title: order
   hideHeader: true
+  hideFooter: true
 </route>
 
 <script lang="ts" setup>
 import { capitalize, toMoney } from '@/utils'
-import { useHeaderStore } from '@/stores/header'
 import { rechargeHistory, totalDetail, withdrawalHistory } from '/src/apis/order'
-const { showFooter } = toRefs(useHeaderStore())
 const router = useRouter()
 const route = useRoute()
 const totalDetailData = ref({} as Response.TotalDetail)
@@ -20,7 +19,8 @@ const pageSize = ref(10)
 const total = ref(0)
 const title = ref(String(route.query.title))
 
-const showHeader = ref(true)
+const showHeader = ref(false)
+const showFooter = ref(true)
 const tabs = [
   {
     title: 'Recharge Orders',
@@ -75,10 +75,6 @@ onMounted(() => {
   showHeader.value = route.query.showHeader === '1'
   showFooter.value = route.query.showHeader !== '1'
 })
-
-onUnmounted(() => {
-  showFooter.value = true
-})
 </script>
 
 <template>
@@ -89,7 +85,7 @@ onUnmounted(() => {
     @click-left="$router.go(-1)"
   />
   <div class="Order p-4 bg-gray-100 flex-1">
-    <section v-if="!showHeader" class="cash p-4 rounded-md bg-slate-600 color-white">
+    <section v-if="showFooter" class="cash p-4 rounded-md bg-slate-600 color-white">
       <ul flex flex-wrap mt--4>
         <li class="basis-1\/2 mt-4">
           <p>Total Recharge</p>
@@ -110,7 +106,7 @@ onUnmounted(() => {
       </ul>
     </section>
     <section class="list box-base">
-      <header v-if="!showHeader" flex-justify>
+      <header v-if="showFooter" flex-justify>
         <p>Order List</p>
         <!-- <p><i i-material-symbols:play-circle-outline></i></p> -->
       </header>
@@ -158,4 +154,5 @@ onUnmounted(() => {
       </VanTabs>
     </section>
   </div>
+  <AppFooter v-if="showFooter" />
 </template>
