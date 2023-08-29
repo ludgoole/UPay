@@ -87,13 +87,8 @@ const username = ref('')
 const showShare = () => {
   isShowShare.value = true
 
-  // qrUrl.value = res.qrUrl
   qrUrl.value = `https://api.cashpayments.in/#/sign?inviteCode=${userInfo.value.inviteCode}`
   username.value = userInfo.value.username
-
-  // QRCode.toCanvas(document.getElementById('canvas'), qrUrl.value, (res) => {
-  //   console.log('🚀 ~ file: mine.vue:97 ~ QRCode.toCanvas ~ res:', res)
-  // })
 
   QRCode.toDataURL(qrUrl.value)
     .then((url: string) => {

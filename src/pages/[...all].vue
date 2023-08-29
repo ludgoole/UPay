@@ -2,7 +2,7 @@
 meta:
   title: Page Not Found
   leftArrow: true
-  rightText: 刷新
+  rightText: refresh
 </route>
 
 <script setup lang="ts">
@@ -26,7 +26,7 @@ onUnmounted(() => {
 // method
 function onClickRight() {
   Toast({
-    message: '刷新',
+    message: 'refresh',
   })
 }
 </script>

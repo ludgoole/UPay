@@ -57,7 +57,7 @@ onMounted(() => {
     <section>
       <p>2.Open the Google Authenticator and scanthe QR Code below or enter secretKey</p>
       <p text-center my-4>
-        <img inline-block crossorigin="anonymous" :src="imgBase64" alt="二维码" />
+        <img inline-block crossorigin="anonymous" :src="imgBase64" alt="QR Code" />
       </p>
       <p font-bold>
         secretKey
