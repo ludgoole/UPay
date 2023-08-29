@@ -32,7 +32,12 @@ declare namespace Response {
     bindCode: number
   }
 
-  type Recharge = null
+  type Recharge = {
+    price: number
+    remark: string
+    rupeeAmount: number
+  }
+
   type Withdrawal = null
   /******   home   ******/
 

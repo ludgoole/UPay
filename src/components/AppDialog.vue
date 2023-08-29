@@ -2,10 +2,12 @@
 interface Prop {
   show: boolean
   title: string
+  needCancel: boolean
 }
 
 const props = withDefaults(defineProps<Prop>(), {
   show: false,
+  needCancel: true,
 })
 const emit = defineEmits(['cancel', 'confirm', 'update:show'])
 const { show } = toRefs(props)
@@ -35,10 +37,10 @@ const onConfirm = () => {
           <slot></slot>
         </section>
         <footer flex-center text-center text-18px>
-          <p flex-1 @click="onCancel">
+          <p v-if="needCancel" flex-1 @click="onCancel">
             cancel
           </p>
-          <div mx-2 class="line"></div>
+          <div v-if="needCancel" mx-2 class="line"></div>
           <p flex-1 color-primary @click="onConfirm">
             confirm
           </p>

@@ -6,7 +6,7 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { Toast } from 'vant'
+import { toMoney } from '@/utils'
 import { addressDetail } from '/src/apis/mine'
 import { recharge, systemAddress } from '/src/apis/home'
 interface AddressItem {
@@ -31,6 +31,8 @@ const isShowPicker = ref(false)
 const columns = ref<AddressItem[]>([])
 
 const isShowDialog = ref(false)
+const isShowSubmit = ref(false)
+const submitInfo = ref({} as Response.Recharge)
 
 const toAddress = () => {
   isShowDialog.value = false
@@ -86,9 +88,12 @@ const onSubmit = (values: Request.Recharge) => {
     systemAddressId: systemAddressId.value,
   }
 
-  recharge(params).then(() => {
-    toOrder()
-    Toast('rechange success')
+  recharge(params).then((res) => {
+    console.log('🚀 ~ file: recharge.vue:92 ~ recharge ~ res:', res)
+    isShowSubmit.value = true
+    submitInfo.value = res
+    // toOrder()
+    // Toast('rechange success')
   })
 }
 
@@ -181,6 +186,10 @@ onMounted(() => {
           </p>
         </VanButton>
       </div>
+    </AppDialog>
+    <AppDialog v-model:show="isShowSubmit" title="Recharge" :need-cancel="false" @confirm="toOrder">
+      <p>price: <span color-gray-4>{{ toMoney(Number(submitInfo.price || 0), 2) }}</span></p>
+      <p>rupeeAmount: <span color-gray-4>{{ toMoney(Number(submitInfo.rupeeAmount || 0), 2) }}</span></p>
     </AppDialog>
   </div>
 </template>

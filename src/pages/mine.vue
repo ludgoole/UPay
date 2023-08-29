@@ -124,6 +124,9 @@ const switchTo = (grid: Grid) => {
   })
 }
 
+// Help center
+const isShowHelp = ref(false)
+
 const toAddress = (title: string) => {
   router.push({
     path: '/address',
@@ -227,7 +230,7 @@ const onLogout = () => {
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4">
+        <li class="flex-justify items-center p-4" @click="isShowHelp = true">
           <p>
             <i i-ph:question></i>
             Help Center
@@ -312,6 +315,16 @@ const onLogout = () => {
       </li>
       <li>BindCode: {{ userInfo.bindCode === 1 ? 'bound' : 'unbound' }}</li>
     </ul>
+  </AppDialog>
+  <AppDialog v-model:show="isShowHelp" title="CONTACT US">
+    <div text-center>
+      <p text-xl>
+        If you need help, please click this link to jump into Telegram
+      </p>
+      <a text-80px href="https://t.me/cashpay12">
+        <i i-logos:telegram></i>
+      </a>
+    </div>
   </AppDialog>
 </template>
 

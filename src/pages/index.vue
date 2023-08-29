@@ -16,6 +16,12 @@ const todayWithdrawal = ref(0)
 const router = useRouter()
 const bingCode = Cookies.get('bingCode')
 
+// https://www.cnblogs.com/ZTianming/p/15390536.html
+const options = {
+  // linear
+  easingFn: (t: number, b: number, c: number, d: number) => c * t / d + b,
+}
+
 const toAuth = (type = 'recharge') => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
   if (bingCode === '0')
@@ -93,23 +99,23 @@ onMounted(() => {
       <ul mt-2>
         <li flex-justify mt-2>
           <p>BTC<span text-sm>/USDT</span></p>
-          <p>29293.23</p>
+          <p>1093.12</p>
           <p class="Home-tag" flex border-base px-2 bg-green-1 border-green-2 color-green>
-            +<CountUp :start-val="0.001" :end-val="0.564" :decimal-places="3" loop />
+            +<CountUp duration="5" :start-val="0.001" :end-val="0.564" :decimal-places="3" loop :options="options" />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
-          <p>2293.23</p>
+          <p>3393.23</p>
           <p class="Home-tag" flex border-base px-2 bg-red-1 border-red-2 color-red>
-            +<CountUp :start-val="0.002" :end-val="1" :decimal-places="3" loop />
+            +<CountUp duration="10" :start-val="0.002" :end-val="1" :decimal-places="3" loop :options="options" />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
-          <p>2923.23</p>
+          <p>2923.03</p>
           <p class="Home-tag" flex border-base px-2 bg-blue-1 border-blue-2 color-blue>
-            +<CountUp :start-val="0.005" :end-val="0.298" :decimal-places="3" loop />
+            +<CountUp duration="15" :start-val="0.005" :end-val="0.298" :decimal-places="3" loop :options="options" />
           </p>
         </li>
       </ul>

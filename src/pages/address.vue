@@ -8,7 +8,9 @@ meta:
 
 <script lang="ts" setup>
 import { Toast } from 'vant'
-import { addressDetail, addressSave, addressStatus, addressUpdate, bankDetail, bankSave } from '/src/apis/mine'
+import { addressDetail, addressSave, addressUpdate, bankDetail, bankSave } from '/src/apis/mine'
+import { useHeaderStore } from '@/stores/header'
+const { title: _title } = toRefs(useHeaderStore())
 const route = useRoute()
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
@@ -99,18 +101,23 @@ const onSubmit = (values: Request.AddressSave & Request.BankSave) => {
     getList()
   })
 }
-const onChange = (item: Response.Record) => {
-  addressStatus({
-    addressId: item.id,
-    status: item.status === 0 ? 1 : 0,
-  }).then(() => {
-    Toast('change status success')
-    getList()
-  }).catch(() => {
-    total.value = 0
-    list.value = []
-  })
-}
+
+watch(title, () => {
+  _title.value = title.value === 'BANK' ? 'bankAccount' : 'address'
+})
+
+// const onChange = (item: Response.Record) => {
+//   addressStatus({
+//     addressId: item.id,
+//     status: item.status === 0 ? 1 : 0,
+//   }).then(() => {
+//     Toast('change status success')
+//     getList()
+//   }).catch(() => {
+//     total.value = 0
+//     list.value = []
+//   })
+// }
 
 onMounted(() => {
   getList()
@@ -142,7 +149,8 @@ onMounted(() => {
                 </template>
                 <p flex-middle flex-justify>
                   <span flex-middle>
-                    Status: <VanSwitch v-model="item.checked" size="16" inactive-color="#dcdee0" ml-2 @change="onChange(item)" />
+                    <!-- Status: <VanSwitch v-model="item.checked" size="16" inactive-color="#dcdee0" ml-2 @change="onChange(item)" /> -->
+                    Status: {{ item.status === 0 ? 'unactive' : 'active' }}
                   </span>
                   <VanButton type="primary" round size="small" class="!px-4" @click="onEdit(item)">
                     edit
