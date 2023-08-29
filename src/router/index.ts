@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
   RouterView && RouterView.scrollTo(0, 0)
 
   if (!isLoginPage && !hasToken) {
-    Toast({ message: 'NO LOGIN' })
+    from.path !== '/' && Toast({ message: 'NO LOGIN' })
     next('/login')
   }
   else if (!isLoginPage && hasToken && needRoles && !hasRole) {

@@ -185,7 +185,7 @@ onMounted(() => {
         <p mb-2>
           no Address data
         </p>
-        <VanButton type="primary" size="small" @click="toAddress">
+        <VanButton type="primary" @click="toAddress">
           <p px-2>
             Add
           </p>

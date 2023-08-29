@@ -123,7 +123,7 @@ onMounted(() => {
                   <p>OrderDesc: <span color-gray-4>{{ item.orderDesc }}</span></p>
                   <p>Amount: <span color-gray-4>{{ Number(item.amount || 0).toFixed(2) }}</span></p>
                   <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
-                  <VanButton type="primary" size="small" block class="!mt-4" @click="toDetail(item.txnId || '')">
+                  <VanButton type="primary" block class="!mt-4" @click="toDetail(item.txnId || '')">
                     Detail
                   </VanButton>
                 </template>

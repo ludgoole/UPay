@@ -141,10 +141,10 @@ onMounted(() => {
                   <p>IFSC: {{ item.ifsc }}</p>
                 </template>
                 <p flex-middle flex-justify>
-                  <span>
+                  <span flex-middle>
                     Status: <VanSwitch v-model="item.checked" size="16" inactive-color="#dcdee0" ml-2 @change="onChange(item)" />
                   </span>
-                  <VanButton type="primary" size="mini" class="!px-2" @click="onEdit(item)">
+                  <VanButton type="primary" round size="small" class="!px-4" @click="onEdit(item)">
                     edit
                   </VanButton>
                 </p>
