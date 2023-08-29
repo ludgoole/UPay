@@ -60,6 +60,11 @@ declare namespace Request {
     pageSize: number
     pageNum: number
   }
+  type OrderDetail = {
+    txnId: string
+    pageSize: number
+    pageNum: number
+  }
   /******   order   ******/
 
   /******   me   ******/

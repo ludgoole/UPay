@@ -5,9 +5,9 @@ meta:
 </route>
 
 <script lang="ts" setup>
-// import { Toast } from 'vant'
 import { rechargeHistory, totalDetail, withdrawalHistory } from '/src/apis/order'
 import { toMoney } from '@/utils'
+const router = useRouter()
 const route = useRoute()
 const totalDetailData = ref({} as Response.TotalDetail)
 const list = ref<Response.Record[]>([])
@@ -53,15 +53,14 @@ const onLoad = () => {
   }
 }
 
-// const onChange = (item: Response.Record) => {
-//   addressStatus({
-//     addressId: item.id,
-//     status: item.status === 0 ? 1 : 0,
-//   }).then(() => {
-//     Toast('change status success')
-//     getList()
-//   })
-// }
+const toDetail = (txnId: string) => {
+  router.push({
+    path: '/detail',
+    query: {
+      txnId,
+    },
+  })
+}
 
 onMounted(() => {
   totalDetail().then((res) => {
@@ -109,22 +108,24 @@ onMounted(() => {
           >
             <ul v-if="list.length" flex flex-wrap mt-4 divide-y>
               <li></li>
-              <li v-for="item in list" :key="item.id" py-4>
+              <li v-for="item in list" :key="item.id" py-4 w-full>
                 <template v-if="title === 'Recharge Orders'">
-                  <p>Id: {{ item.id }}</p>
-                  <p>MyAddress: {{ item.myAddress }}</p>
-                  <p>SystemAddress: {{ item.systemAddress }}</p>
-                  <p>Amount: {{ Number(item.amount || 0).toFixed(2) }}</p>
-                  <p>CreateTime: {{ item.createTime }}</p>
+                  <p>Id: <span color-gray-4>{{ item.id }}</span></p>
+                  <p>MyAddress: <span color-gray-4>{{ item.myAddress }}</span></p>
+                  <p>SystemAddress: <span color-gray-4>{{ item.systemAddress }}</span></p>
+                  <p>Amount: <span color-gray-4>{{ Number(item.amount || 0).toFixed(2) }}</span></p>
+                  <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
                 </template>
                 <template v-else>
-                  <p>Id: {{ item.id }}</p>
-                  <p>BankAccount: {{ item.bankAccount }}</p>
-                  <p>IFSC: {{ item.ifsc }}</p>
-                  <p>UTR: {{ item.utr || 'NA' }}</p>
-                  <p>OrderStatus: {{ item.orderStatus }}</p>
-                  <p>Amount: {{ Number(item.amount || 0).toFixed(2) }}</p>
-                  <p>CreateTime: {{ item.createTime }}</p>
+                  <p>TnxId: <span color-gray-4>{{ item.txnId }}</span></p>
+                  <p>BankAccount: <span color-gray-4>{{ item.bankAccount }}</span></p>
+                  <p>IFSC: <span color-gray-4>{{ item.ifsc }}</span></p>
+                  <p>OrderDesc: <span color-gray-4>{{ item.orderDesc }}</span></p>
+                  <p>Amount: <span color-gray-4>{{ Number(item.amount || 0).toFixed(2) }}</span></p>
+                  <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
+                  <VanButton type="primary" size="small" block class="!mt-4" @click="toDetail(item.txnId || '')">
+                    Detail
+                  </VanButton>
                 </template>
               </li>
               <li></li>

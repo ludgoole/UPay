@@ -43,7 +43,7 @@ const gridList = [
   {
     img: profit,
     text: 'Profit',
-    path: '/order',
+    path: '/profit',
   },
   {
     img: withdrawal,

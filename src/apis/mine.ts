@@ -8,3 +8,4 @@ export const getUserInfo = (params = {}) => GET<Response.UserInfo>('client/user/
 export const modifyPassword = (params: Request.ModifyPassword) => POSt<Response.UserInfo>('/client/modify/password', params)
 export const bankDetail = (params: Request.BankDetail) => POSt<Response.AddressDetail>('/bank/account/detail', params)
 export const bankSave = (params: Request.BankSave) => POSt<Response.UserInfo>('/bank/account/bind', params)
+export const profitList = (params: Request.BankDetail) => POSt<Response.AddressDetail>('/profit/list', params, { loading: true })

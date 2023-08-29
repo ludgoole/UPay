@@ -71,6 +71,20 @@ declare namespace Response {
     searchCount: boolean;
     pages: number;
   }
+
+  type OrderDetail = {
+    records: Record[];
+    total: number;
+    size: number;
+    current: number;
+    orders: any[];
+    optimizeCountSql: boolean;
+    hitCount: boolean;
+    countId?: any;
+    maxLimit?: any;
+    searchCount: boolean;
+    pages: number;
+  }
   /******   order   ******/
 
   /******   me   ******/
@@ -104,6 +118,7 @@ declare namespace Response {
     checked?: boolean;
     status: number;
     createTime: string;
+    updateTime: string;
     myAddress?: string;
     systemAddress?: string;
     amount?: string;
@@ -111,6 +126,7 @@ declare namespace Response {
     utr?: string;
     userId?: string;
     orderStatus?: string;
+    orderDesc?: string;
   }
 
 
