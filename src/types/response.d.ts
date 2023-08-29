@@ -127,6 +127,7 @@ declare namespace Response {
     userId?: string;
     orderStatus?: string;
     orderDesc?: string;
+    type?: number;
   }
 
 

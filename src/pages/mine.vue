@@ -38,7 +38,7 @@ const gridList = [
   {
     img: financial,
     text: 'Financial Flow',
-    path: '/order',
+    path: '/financial',
   },
   {
     img: profit,
@@ -51,12 +51,16 @@ const gridList = [
     path: '/order',
     query: {
       title: 'Withdrawal Orders',
+      showHeader: '1',
     },
   },
   {
     img: payment,
     text: 'Recharge History',
     path: '/order',
+    query: {
+      showHeader: '1',
+    },
   },
   // {
   //   img: collection,
@@ -129,6 +133,9 @@ const toAddress = (title: string) => {
   })
 }
 
+const toProfit = () => {
+  router.push('/profit')
+}
 const toAuth = () => {
   router.push('/auth')
 }
@@ -192,10 +199,10 @@ const onLogout = () => {
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>
-        <li class="flex-justify items-center p-4">
+        <li class="flex-justify items-center p-4" @click="toProfit">
           <p>
             <i i-ant-design:team-outlined></i>
-            My team
+            My Profit
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>

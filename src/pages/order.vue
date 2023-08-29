@@ -5,8 +5,10 @@ meta:
 </route>
 
 <script lang="ts" setup>
+import { capitalize, toMoney } from '@/utils'
+import { useHeaderStore } from '@/stores/header'
 import { rechargeHistory, totalDetail, withdrawalHistory } from '/src/apis/order'
-import { toMoney } from '@/utils'
+const { showFooter } = toRefs(useHeaderStore())
 const router = useRouter()
 const route = useRoute()
 const totalDetailData = ref({} as Response.TotalDetail)
@@ -17,6 +19,8 @@ const pageNum = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const title = ref(String(route.query.title))
+
+const showHeader = ref(true)
 const tabs = [
   {
     title: 'Recharge Orders',
@@ -68,12 +72,24 @@ onMounted(() => {
     console.log('🚀 ~ file: order.vue:66 ~ totalDetail ~ res:', res)
   })
   getList()
+  showHeader.value = route.query.showHeader === '1'
+  showFooter.value = route.query.showHeader !== '1'
+})
+
+onUnmounted(() => {
+  showFooter.value = true
 })
 </script>
 
 <template>
-  <div class="Order p-4 bg-gray-100">
-    <section class="cash p-4 rounded-md bg-slate-600 color-white">
+  <VanNavBar
+    v-if="showHeader"
+    :title="title.split(' ')[0]"
+    left-arrow
+    @click-left="$router.go(-1)"
+  />
+  <div class="Order p-4 bg-gray-100 flex-1">
+    <section v-if="!showHeader" class="cash p-4 rounded-md bg-slate-600 color-white">
       <ul flex flex-wrap mt--4>
         <li class="basis-1\/2 mt-4">
           <p>Total Recharge</p>
@@ -94,7 +110,7 @@ onMounted(() => {
       </ul>
     </section>
     <section class="list box-base">
-      <header flex-justify>
+      <header v-if="!showHeader" flex-justify>
         <p>Order List</p>
         <!-- <p><i i-material-symbols:play-circle-outline></i></p> -->
       </header>
@@ -108,19 +124,25 @@ onMounted(() => {
           >
             <ul v-if="list.length" flex flex-wrap mt-4 divide-y>
               <li></li>
-              <li v-for="item in list" :key="item.id" py-4 w-full>
+              <li v-for="item in list" :key="item.id" py-4 w-full break-all>
                 <template v-if="title === 'Recharge Orders'">
-                  <p>Id: <span color-gray-4>{{ item.id }}</span></p>
+                  <!-- <p>Id: <span color-gray-4>{{ item.id }}</span></p>
                   <p>MyAddress: <span color-gray-4>{{ item.myAddress }}</span></p>
                   <p>SystemAddress: <span color-gray-4>{{ item.systemAddress }}</span></p>
                   <p>Amount: <span color-gray-4>{{ toMoney(Number(item.amount || 0)) }}</span></p>
-                  <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
+                  <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p> -->
+                  <p v-for="(val, key) in item" :key="key">
+                    {{ capitalize(key) }}:
+                    <span color-gray-4>{{
+                      key === 'amount' ? toMoney(Number(val), 2) : val || '--'
+                    }}</span>
+                  </p>
                 </template>
                 <template v-else>
                   <p>TnxId: <span color-gray-4>{{ item.txnId }}</span></p>
                   <p>BankAccount: <span color-gray-4>{{ item.bankAccount }}</span></p>
                   <p>IFSC: <span color-gray-4>{{ item.ifsc }}</span></p>
-                  <p>OrderDesc: <span color-gray-4>{{ item.orderDesc }}</span></p>
+                  <p>OrderDesc: <span color-gray-4>{{ item.orderDesc || '--' }}</span></p>
                   <p>Amount: <span color-gray-4>{{ toMoney(Number(item.amount || 0), 2) }}</span></p>
                   <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
                   <VanButton type="primary" block class="!mt-4" @click="toDetail(item.txnId || '')">

@@ -9,3 +9,4 @@ export const modifyPassword = (params: Request.ModifyPassword) => POSt<Response.
 export const bankDetail = (params: Request.BankDetail) => POSt<Response.AddressDetail>('/bank/account/detail', params, { loading: true })
 export const bankSave = (params: Request.BankSave) => POSt<Response.UserInfo>('/bank/account/bind', params)
 export const profitList = (params: Request.BankDetail) => POSt<Response.AddressDetail>('/profit/list', params, { loading: true })
+export const financiaList = (params: Request.BankDetail) => POSt<Response.AddressDetail>('/financial/log/list', params, { loading: true })

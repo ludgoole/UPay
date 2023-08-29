@@ -1,12 +1,12 @@
 <route lang="yaml">
 meta:
-  title: profit
+  title: financial
   leftArrow: true
   hideFooter: true
   </route>
 
 <script lang="ts" setup>
-import { profitList } from '/src/apis/mine'
+import { financiaList } from '/src/apis/mine'
 import { capitalize, toMoney } from '@/utils'
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
@@ -15,8 +15,15 @@ const pageNum = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 
+// RECHARGE_TYPE("recharge", 0),
+// WITHDRAWAL_TYPE("withdrawal", 1),
+// PROFIT_TYPE("profit", 2),
+// CHARGE_BACK("chargeback", 3),
+// REFUND("refund", 4),
+const types = ['recharge', 'withdrawal', 'profit', 'chargeback', 'refund']
+
 const getList = () => {
-  profitList({
+  financiaList({
     pageNum: pageNum.value,
     pageSize: pageSize.value,
   }).then((res) => {
@@ -59,7 +66,9 @@ onMounted(() => {
         <p v-for="(val, key) in item" :key="key">
           {{ key === 'ifsc' ? 'IFSC' : capitalize(key) }}:
           <span color-gray-4>{{
-            key === 'amount' ? toMoney(Number(val), 2) : val || '--'
+            key === 'amount'
+              ? toMoney(Number(val), [1, 2, 4].includes(item.type || 0) ? 2 : 1)
+              : key === 'type' ? types[Number(val)] : val || '--'
           }}</span>
         </p>
       </li>
