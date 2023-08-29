@@ -113,7 +113,7 @@ onMounted(() => {
                   <p>Id: <span color-gray-4>{{ item.id }}</span></p>
                   <p>MyAddress: <span color-gray-4>{{ item.myAddress }}</span></p>
                   <p>SystemAddress: <span color-gray-4>{{ item.systemAddress }}</span></p>
-                  <p>Amount: <span color-gray-4>{{ Number(item.amount || 0).toFixed(2) }}</span></p>
+                  <p>Amount: <span color-gray-4>{{ toMoney(Number(item.amount || 0)) }}</span></p>
                   <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
                 </template>
                 <template v-else>
@@ -121,7 +121,7 @@ onMounted(() => {
                   <p>BankAccount: <span color-gray-4>{{ item.bankAccount }}</span></p>
                   <p>IFSC: <span color-gray-4>{{ item.ifsc }}</span></p>
                   <p>OrderDesc: <span color-gray-4>{{ item.orderDesc }}</span></p>
-                  <p>Amount: <span color-gray-4>{{ Number(item.amount || 0).toFixed(2) }}</span></p>
+                  <p>Amount: <span color-gray-4>{{ toMoney(Number(item.amount || 0), 2) }}</span></p>
                   <p>CreateTime: <span color-gray-4>{{ item.createTime }}</span></p>
                   <VanButton type="primary" block class="!mt-4" @click="toDetail(item.txnId || '')">
                     Detail
