@@ -7,24 +7,13 @@ meta:
     </route>
 
 <script lang="ts" setup>
-import { Toast } from 'vant'
 import { systemAddressList } from '/src/apis/mine'
-import useClipboard from 'vue-clipboard3'
-const { toClipboard } = useClipboard()
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
 const finished = ref(false)
 const pageNum = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
-
-const onCopy = (text: any) => {
-  toClipboard(text).then(() => {
-    Toast('copy success!')
-  }).catch(() => {
-    Toast('copy fail!')
-  })
-}
 
 const getList = () => {
   systemAddressList({
@@ -70,9 +59,7 @@ onMounted(() => {
         <li></li>
         <li v-for="item in list" :key="item.id" py-4>
           <p>Id: {{ item.id }}</p>
-          <p @click="onCopy(item.address)">
-            Address: {{ item.address }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
-          </p>
+          <AppCopy :text="item.address" />
           <p>Status: {{ item.status === 0 ? 'unactive' : 'active' }}</p>
           <p>CreateTime: {{ item.createTime }}</p>
         </li>

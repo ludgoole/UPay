@@ -9,7 +9,6 @@ import QRCode from 'qrcode'
 import { getUserInfo } from '/src/apis/mine'
 import { logout } from '/src/apis/login'
 import { Toast } from 'vant'
-import useClipboard from 'vue-clipboard3'
 import Cookies from 'js-cookie'
 import financial from '@/assets/images/financial-flow.png'
 import withdrawal from '@/assets/images/withdrawal-record.png'
@@ -31,7 +30,6 @@ interface Grid {
   path: string
   query?: any
 }
-const { toClipboard } = useClipboard()
 const router = useRouter()
 const userInfo = ref({} as Response.UserInfo)
 const gridList = [
@@ -107,14 +105,6 @@ getUserInfo().then((res) => {
   if (res)
     userInfo.value = res
 })
-
-const onCopy = (text: string) => {
-  toClipboard(text).then(() => {
-    Toast('copy success!')
-  }).catch(() => {
-    Toast('copy fail!')
-  })
-}
 
 // grid
 const switchTo = (grid: Grid) => {
@@ -310,8 +300,9 @@ const onLogout = () => {
     <div break-all>
       <img ml-15 crossorigin="anonymous" :src="imgBase64" />
       <p id="canvas"></p>
-      <p class="text-left" @click="onCopy(qrUrl)">
-        <span class="font-bold">Link:</span> {{ qrUrl }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      <p class="text-left">
+        <span class="font-bold">Link: <AppCopy inline :text="qrUrl" />
+        </span>
       </p>
       <p class="text-left">
         <span class="font-bold">Username:</span> {{ username }}
@@ -323,8 +314,8 @@ const onLogout = () => {
       <li>UserId: {{ userInfo.userId }} </li>
       <li>Username: {{ userInfo.username }}</li>
       <li>Mobile: {{ userInfo.mobileNo }}</li>
-      <li @click="onCopy(userInfo.inviteCode)">
-        Invitation Code: {{ userInfo.inviteCode }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+      <li>
+        Invitation Code: <AppCopy inline :text="userInfo.inviteCode" />
       </li>
       <li>BindCode: {{ userInfo.bindCode === 1 ? 'bound' : 'unbound' }}</li>
     </ul>

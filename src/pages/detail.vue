@@ -6,13 +6,10 @@ meta:
   </route>
 
 <script lang="ts" setup>
-import { Toast } from 'vant'
-import useClipboard from 'vue-clipboard3'
 import { orderDetail } from '/src/apis/order'
 import { capitalize, toMoney } from '@/utils'
 const router = useRouter()
 const route = useRoute()
-const { toClipboard } = useClipboard()
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
 const finished = ref(false)
@@ -20,14 +17,6 @@ const pageNum = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const txnId = String(route.query.txnId)
-
-const onCopy = (text: any) => {
-  toClipboard(text).then(() => {
-    Toast('copy success!')
-  }).catch(() => {
-    Toast('copy fail!')
-  })
-}
 
 const getList = () => {
   orderDetail({
@@ -88,8 +77,7 @@ onMounted(() => {
         <p v-for="(val, key) in item" :key="key">
           {{ ['ifsc', 'utr'].includes(key) ? key.toLocaleUpperCase() : capitalize(key) }}:
           <template v-if="['bankAccount', 'utr'].includes(key)">
-            <span color-gray-4 @click="onCopy(val || '--')">
-              {{ val || '--' }}</span> <i translate-y--2px i-material-symbols:content-copy-outline></i>
+            <AppCopy inline text-sm :text="String(val || '--') " />
           </template>
           <template v-else>
             <span color-gray-4>{{

@@ -5,7 +5,6 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import CountUp from 'vue-countup-v3'
 import Cookies from 'js-cookie'
 import { currentPrice, detail } from '/src/apis/home'
 import { toMoney } from '@/utils'
@@ -17,12 +16,6 @@ const router = useRouter()
 const bingCode = Cookies.get('bingCode')
 const desc = ref('')
 const price = ref(0)
-
-// https://www.cnblogs.com/ZTianming/p/15390536.html
-const options = {
-  // linear
-  easingFn: (t: number, b: number, c: number, d: number) => c * t / d + b,
-}
 
 const toAuth = (type = 'recharge') => {
   console.log('🚀 ~ file: index.vue:17 ~ toAuth ~ bingCode:', bingCode)
@@ -75,9 +68,6 @@ onMounted(() => {
         <p text-sm>
           Today's recharge
         </p>
-        <!-- <p py-2>
-          USDT
-        </p> -->
         <p pt-2>
           {{ toMoney(todayRechargeUsdt, 1) }}
         </p>
@@ -88,9 +78,6 @@ onMounted(() => {
         <p text-sm>
           Today's withdrawal
         </p>
-        <!-- <p py-2>
-          USDT
-        </p> -->
         <p pt-2>
           {{ toMoney(todayWithdrawal, 2) }}
         </p>
@@ -106,29 +93,6 @@ onMounted(() => {
       <p v-if="desc" flex-justify mt-2>
         {{ desc }}: <span color-gray-4>{{ toMoney(price, 2) }}</span>
       </p>
-      <!-- <ul mt-2>
-        <li flex-justify mt-2>
-          <p>BTC<span text-sm>/USDT</span></p>
-          <p>1093.12</p>
-          <p class="Home-tag" flex border-base px-2 bg-green-1 border-green-2 color-green>
-            +<CountUp duration="100" :start-val="0.001" :end-val="0.564" :decimal-places="3" loop :options="options" />
-          </p>
-        </li>
-        <li flex-justify mt-4>
-          <p>BTC<span text-sm>/USDT</span></p>
-          <p>3393.23</p>
-          <p class="Home-tag" flex border-base px-2 bg-red-1 border-red-2 color-red>
-            +<CountUp duration="100" :start-val="0.002" :end-val="1" :decimal-places="3" loop :options="options" />
-          </p>
-        </li>
-        <li flex-justify mt-4>
-          <p>BTC<span text-sm>/USDT</span></p>
-          <p>2923.03</p>
-          <p class="Home-tag" flex border-base px-2 bg-blue-1 border-blue-2 color-blue>
-            +<CountUp duration="100" :start-val="0.005" :end-val="0.298" :decimal-places="3" loop :options="options" />
-          </p>
-        </li>
-      </ul> -->
     </section>
   </div>
 </template>
