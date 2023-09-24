@@ -39,6 +39,11 @@ declare namespace Response {
   }
 
   type Withdrawal = null
+
+  type CurrentPrice = {
+    desc: string
+    price: number
+  }
   /******   home   ******/
 
   /******   order   ******/

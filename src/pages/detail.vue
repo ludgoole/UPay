@@ -6,10 +6,13 @@ meta:
   </route>
 
 <script lang="ts" setup>
+import { Toast } from 'vant'
+import useClipboard from 'vue-clipboard3'
 import { orderDetail } from '/src/apis/order'
 import { capitalize, toMoney } from '@/utils'
 const router = useRouter()
 const route = useRoute()
+const { toClipboard } = useClipboard()
 const list = ref<Response.Record[]>([])
 const loading = ref(false)
 const finished = ref(false)
@@ -17,6 +20,14 @@ const pageNum = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const txnId = String(route.query.txnId)
+
+const onCopy = (text: any) => {
+  toClipboard(text).then(() => {
+    Toast('copy success!')
+  }).catch(() => {
+    Toast('copy fail!')
+  })
+}
 
 const getList = () => {
   orderDetail({
@@ -75,10 +86,16 @@ onMounted(() => {
     <ul v-if="list.length" flex flex-wrap divide-y>
       <li v-for="item in list" :key="item.id" py-4 w-full>
         <p v-for="(val, key) in item" :key="key">
-          {{ key === 'ifsc' ? 'IFSC' : capitalize(key) }}:
-          <span color-gray-4>{{
-            key === 'amount' ? toMoney(Number(val), 2) : val || '--'
-          }}</span>
+          {{ ['ifsc', 'utr'].includes(key) ? key.toLocaleUpperCase() : capitalize(key) }}:
+          <template v-if="['bankAccount', 'utr'].includes(key)">
+            <span color-gray-4 @click="onCopy(val || '--')">
+              {{ val || '--' }}</span> <i translate-y--2px i-material-symbols:content-copy-outline></i>
+          </template>
+          <template v-else>
+            <span color-gray-4>{{
+              key === 'amount' ? toMoney(Number(val), 2) : val || '--'
+            }}</span>
+          </template>
         </p>
       </li>
       <li></li>

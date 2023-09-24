@@ -7,7 +7,7 @@ meta:
 <script lang="ts" setup>
 import CountUp from 'vue-countup-v3'
 import Cookies from 'js-cookie'
-import { detail } from '/src/apis/home'
+import { currentPrice, detail } from '/src/apis/home'
 import { toMoney } from '@/utils'
 const usdtBalance = ref(0)
 const rupeeBalance = ref(0)
@@ -15,6 +15,8 @@ const todayRechargeUsdt = ref(0)
 const todayWithdrawal = ref(0)
 const router = useRouter()
 const bingCode = Cookies.get('bingCode')
+const desc = ref('')
+const price = ref(0)
 
 // https://www.cnblogs.com/ZTianming/p/15390536.html
 const options = {
@@ -37,6 +39,11 @@ onMounted(() => {
     rupeeBalance.value = res.rupeeBalance
     todayRechargeUsdt.value = res.todayRechargeUsdt
     todayWithdrawal.value = res.todayWithdrawal
+  })
+
+  currentPrice().then((res) => {
+    desc.value = res.desc
+    price.value = res.price
   })
 })
 </script>
@@ -96,29 +103,32 @@ onMounted(() => {
 
     <section class="info box-base">
       <header>More Information</header>
-      <ul mt-2>
+      <p v-if="desc" flex-justify mt-2>
+        {{ desc }}: <span color-gray-4>{{ toMoney(price, 2) }}</span>
+      </p>
+      <!-- <ul mt-2>
         <li flex-justify mt-2>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>1093.12</p>
           <p class="Home-tag" flex border-base px-2 bg-green-1 border-green-2 color-green>
-            +<CountUp duration="5" :start-val="0.001" :end-val="0.564" :decimal-places="3" loop :options="options" />
+            +<CountUp duration="100" :start-val="0.001" :end-val="0.564" :decimal-places="3" loop :options="options" />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>3393.23</p>
           <p class="Home-tag" flex border-base px-2 bg-red-1 border-red-2 color-red>
-            +<CountUp duration="10" :start-val="0.002" :end-val="1" :decimal-places="3" loop :options="options" />
+            +<CountUp duration="100" :start-val="0.002" :end-val="1" :decimal-places="3" loop :options="options" />
           </p>
         </li>
         <li flex-justify mt-4>
           <p>BTC<span text-sm>/USDT</span></p>
           <p>2923.03</p>
           <p class="Home-tag" flex border-base px-2 bg-blue-1 border-blue-2 color-blue>
-            +<CountUp duration="15" :start-val="0.005" :end-val="0.298" :decimal-places="3" loop :options="options" />
+            +<CountUp duration="100" :start-val="0.005" :end-val="0.298" :decimal-places="3" loop :options="options" />
           </p>
         </li>
-      </ul>
+      </ul> -->
     </section>
   </div>
 </template>

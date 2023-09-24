@@ -6,3 +6,4 @@ export const systemAddress = (params = {}) => GET<Response.SystemAddress>('/rech
 export const bind = (params: Request.Bind) => POSt<Response.Bind>('/client/bind/google/code', params)
 export const recharge = (params: Request.Recharge) => POSt<Response.Recharge>('/recharge/usdt', params)
 export const withdrawal = (params: Request.Withdrawal) => POSt<Response.Withdrawal>('/bank/account/withdrawal', params)
+export const currentPrice = (params = {}) => GET<Response.CurrentPrice>('/home/current/price', params)

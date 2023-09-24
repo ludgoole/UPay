@@ -88,19 +88,27 @@ onMounted(() => {
     <section v-if="showFooter" class="cash p-4 rounded-md bg-slate-600 color-white">
       <ul flex flex-wrap mt--4>
         <li class="basis-1\/2 mt-4">
-          <p>Total Recharge</p>
+          <p text-sm>
+            Last 7 days Recharge
+          </p>
           <p>{{ toMoney(totalDetailData.totalRechargeAmount, 1) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Total Withdrawal</p>
+          <p text-sm>
+            Last 7 days Withdrawal
+          </p>
           <p>{{ toMoney(totalDetailData.totalWithdrawalAmount, 2) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Today Recharge</p>
+          <p text-sm>
+            Today Recharge
+          </p>
           <p>{{ toMoney(totalDetailData.todayRechargeUsdt, 1) }}</p>
         </li>
         <li class="basis-1\/2 mt-4">
-          <p>Today Withdrawa</p>
+          <p text-sm>
+            Today Withdrawa
+          </p>
           <p>{{ toMoney(totalDetailData.todayWithdrawal, 2) }}</p>
         </li>
       </ul>
@@ -130,7 +138,7 @@ onMounted(() => {
                   <p v-for="(val, key) in item" :key="key">
                     {{ capitalize(key) }}:
                     <span color-gray-4>{{
-                      key === 'amount' ? toMoney(Number(val), 2) : val || '--'
+                      key === 'amount' ? toMoney(Number(val)) : val || '--'
                     }}</span>
                   </p>
                 </template>
@@ -153,6 +161,7 @@ onMounted(() => {
         </VanTab>
       </VanTabs>
     </section>
+    <div v-if="showFooter" h-50px></div>
   </div>
   <AppFooter v-if="showFooter" />
 </template>

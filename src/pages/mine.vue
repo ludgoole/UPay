@@ -136,6 +136,12 @@ const toAddress = (title: string) => {
   })
 }
 
+const toSystemAddress = () => {
+  router.push({
+    path: '/system',
+  })
+}
+
 const toProfit = () => {
   router.push('/profit')
 }
@@ -212,7 +218,14 @@ const onLogout = () => {
         <li class="flex-justify items-center p-4" @click="toAddress('USDT')">
           <p>
             <i i-mdi:tag-outline></i>
-            USDT Address List
+            My USDT Address List
+          </p>
+          <VanIcon ml-auto name="arrow" />
+        </li>
+        <li class="flex-justify items-center p-4" @click="toSystemAddress">
+          <p>
+            <i i-mdi:tag-outline></i>
+            System Address List
           </p>
           <VanIcon ml-auto name="arrow" />
         </li>

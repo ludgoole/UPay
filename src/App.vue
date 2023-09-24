@@ -19,6 +19,7 @@ onMounted(() => {
     <AppHeader v-if="isShowHeader" />
     <AppSkeleton :is-loading="isLoading">
       <RouterView class="RouterView" flex-1 overflow-auto />
+      <div v-if="isShowFooter" h-50px></div>
     </AppSkeleton>
     <AppFooter v-if="isShowFooter" />
   </div>

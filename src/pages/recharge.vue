@@ -6,8 +6,10 @@ meta:
 </route>
 
 <script lang="ts" setup>
+import { Toast } from 'vant'
 import { toMoney } from '@/utils'
 import { addressDetail } from '/src/apis/mine'
+import useClipboard from 'vue-clipboard3'
 import { recharge, systemAddress } from '/src/apis/home'
 interface AddressItem {
   text: string
@@ -15,6 +17,7 @@ interface AddressItem {
 }
 type Filed = 'myAddress' | 'systemAddress'
 const router = useRouter()
+const { toClipboard } = useClipboard()
 const myAddressList = ref<AddressItem[]>([])
 const systemAddressList = ref<AddressItem[]>([])
 const pickerFiled = ref<Filed>('myAddress')
@@ -33,6 +36,14 @@ const columns = ref<AddressItem[]>([])
 const isShowDialog = ref(false)
 const isShowSubmit = ref(false)
 const submitInfo = ref({} as Response.Recharge)
+
+const onCopy = (text: string) => {
+  toClipboard(text).then(() => {
+    Toast('copy success!')
+  }).catch(() => {
+    Toast('copy fail!')
+  })
+}
 
 const toAddress = () => {
   isShowDialog.value = false
@@ -150,7 +161,16 @@ onMounted(() => {
             :columns="columns"
             @confirm="onConfirm"
             @cancel="isShowPicker = false"
-          />
+          >
+            <template #option="option">
+              <p v-if="pickerFiled === 'myAddress'">
+                {{ option.text }}
+              </p>
+              <p v-else @click="onCopy(option.text)">
+                {{ option.text }} <i translate-y--2px i-material-symbols:content-copy-outline></i>
+              </p>
+            </template>
+          </vanpicker>
         </VanPopup>
 
         <VanField

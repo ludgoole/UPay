@@ -104,6 +104,8 @@ const onSubmit = (values: Request.AddressSave & Request.BankSave) => {
 
 watch(title, () => {
   _title.value = title.value === 'BANK' ? 'bankAccount' : 'address'
+}, {
+  immediate: true,
 })
 
 // const onChange = (item: Response.Record) => {

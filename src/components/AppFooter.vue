@@ -15,7 +15,7 @@ const onChange = (path: string) => {
 </script>
 
 <template>
-  <VanTabbar v-model="active" class="!static" @change="onChange">
+  <VanTabbar v-model="active" @change="onChange">
     <VanTabbarItem
       v-for="item in menus"
       :key="item.icon"

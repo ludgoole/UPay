@@ -2,7 +2,7 @@
 interface Prop {
   show: boolean
   title: string
-  needCancel: boolean
+  needCancel?: boolean
 }
 
 const props = withDefaults(defineProps<Prop>(), {

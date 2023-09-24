@@ -67,7 +67,6 @@ const onSubmit = (values: Request.Login) => {
           name="googleCode"
           label="Google Code"
           placeholder="Google Code"
-          :rules="[{ required: true, message: 'Please enter Google Code' }]"
         >
           <template #label>
             <i i-gg:keyboard></i>

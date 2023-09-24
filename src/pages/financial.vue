@@ -20,7 +20,8 @@ const total = ref(0)
 // PROFIT_TYPE("profit", 2),
 // CHARGE_BACK("chargeback", 3),
 // REFUND("refund", 4),
-const types = ['recharge', 'withdrawal', 'profit', 'chargeback', 'refund']
+// TRANSFER_RUPEE("transferRupee", 5)
+const types = ['recharge', 'withdrawal', 'profit', 'chargeback', 'refund', 'transferRupee']
 
 const getList = () => {
   financiaList({
