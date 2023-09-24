@@ -1,1 +1,0 @@
-import{_ as r,b as e}from"./assets/index.9664f5ed.js";import{L as o,H as c}from"./vendor.b3a4d035.js";import"./vant-vendor.c1d1d286.js";const t={},s={src:"https://t.me/cashpay12",frameborder:"0"};function a(n,f){return o(),c("iframe",s)}typeof e=="function"&&e(t);const p=r(t,[["render",a]]);export{p as default};
