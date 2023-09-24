@@ -34,6 +34,13 @@ const isShowDialog = ref(false)
 const isShowSubmit = ref(false)
 const submitInfo = ref({} as Response.Recharge)
 
+const clearFrom = () => {
+  form.amount = ''
+  form.myAddress = ''
+  form.systemAddress = ''
+  form.googleCode = ''
+}
+
 const toAddress = () => {
   isShowDialog.value = false
   router.push({
@@ -90,6 +97,7 @@ const onSubmit = (values: Request.Recharge) => {
 
   recharge(params).then((res) => {
     console.log('🚀 ~ file: recharge.vue:92 ~ recharge ~ res:', res)
+    clearFrom()
     isShowSubmit.value = true
     submitInfo.value = res
     // toOrder()

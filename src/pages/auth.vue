@@ -66,7 +66,7 @@ onMounted(() => {
         v-model="googleCode"
         name="googleCode"
         label=""
-        placeholder="Enter new Google Auth.code"
+        placeholder="Enter new Google Auth code"
       />
     </section>
     <section my-4>
